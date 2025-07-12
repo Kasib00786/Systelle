@@ -16,14 +16,51 @@ export const Navbar = () => {
                 <button className={inactive}>Exercise</button>
             </div>
         </div>
-        <div className='max-w-[85%] h-60 mx-auto bg-white/80 rounded-2xl mt-16 shadow-lg'>
-           <h1 className='text-3xl pt-16 pl-16 pr-16 font-bold'>Hii Krati</h1>
-           <button className='bg-violet-600 rounded-full pl-6 pr-6 p-1 ml-14 mt-5 text-2xl text-white font-semibold hover:shadow-md hover:bg-violet-400'>How was you day?</button>
+        <div className='max-w-[85%] mx-auto bg-white/80 rounded-2xl mt-16 shadow-lg flex flex-col md:flex-row justify-between items-center'>
+           <div>
+           <h1 className='text-6xl pb-8 pl-28 font-bold'>Hii Krati !!</h1>
+           <button className='bg-violet-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-violet-700 rounded-2xl w-96 h-8 ml-16 text-2xl text-white font-semibold'> How was you day? 😊 </button>
+           </div>
+           {/* Circular Progress */}
+          <div className="relative w-80 h-60 mr-16 mb-8 mt-8">
+          <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              stroke="#e5d4f9"
+              strokeWidth="20"
+              fill="none"
+            />
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              stroke="#9333ea"
+              strokeWidth="10"
+              strokeLinecap="round"
+              fill="none"
+              strokeDasharray="251.2"
+              strokeDashoffset="62.8"
+              className="transition-all duration-1000"
+            />
+          </svg>
+          <div className="absolute inset-0 flex items-center justify-center text-xl font-bold text-gray-800">
+            15 days<br />to go
+          </div>
         </div>
-        <div className='max-w-[85%] h-32 mx-auto bg-white/80 rounded-2xl mt-6 shadow-lg'>
-           <h1 className='text-3xl font-bold pt-8 pl-16'>Congratulations</h1>
-           <h1 className='text-lg font-seminold pl-16'>You have no risk of PCOD/PCOS</h1>
         </div>
+        <div className="max-w-[85%] mx-auto mt-8 bg-white rounded-2xl shadow-lg p-6 flex flex-col md:flex-row justify-between items-center">
+        <div>
+        <p className="text-4xl font-bold ml-16 mb-8 mt-8">You have no risk of PCOD/PCOS 🎉</p>
+        </div>
+        <div className="relative h-4 ml-8 mr-8 bg-gray-200 w-5/6 rounded-xl overflow-hidden">
+          <div
+            className="absolute h-2 m-1 bg-green-500 rounded-xl"
+            style={{ width: "25%" }}
+          />
+        </div>
+      </div>
     </div>
   )
 }
