@@ -3,7 +3,7 @@ const isactive='bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-f
 const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out'
 export const Navbar = () => {
   return (
-    <div className='bg-gradient-to-r from-pink-100 to-indigo-200 min-h-screen'>
+    <div className='bg-gradient-to-r from-pink-100 to-indigo-200 min-h-max'>
         <div className='flex sticky top-10 max-w-[85%] bg-white/80 p-3 rounded-2xl mx-auto shadow-lg'>
             <img src="/logo.png" alt="logo" className='w-20 h-15' />
             <div className='text-balance font-bold text-2xl my-auto'>
@@ -52,7 +52,7 @@ export const Navbar = () => {
           </div>
         </div>
         </div>
-        <div className="max-w-[85%] mx-auto mt-8 bg-white rounded-2xl shadow-lg p-6 flex flex-col md:flex-row justify-between items-center">
+        <div className="max-w-[85%] mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6 flex flex-col md:flex-row justify-between items-center">
         <div>
         <p className="text-4xl font-bold ml-16 mb-8 mt-8">You have no risk of PCOD/PCOS 🎉</p>
         </div>
