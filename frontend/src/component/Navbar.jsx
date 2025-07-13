@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Menu from './Menu'
 const isactive='bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-full max-h-14 my-auto'
 const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out'
 export const Navbar = () => {
+const [open,setOpen]=useState(false);
   return (
     <div className='bg-gradient-to-r from-pink-100 to-indigo-200 min-h-max'>
-        <div className='flex sticky top-10 max-w-[85%] bg-white/80 p-3 rounded-2xl mx-auto shadow-lg'>
-            <img src="/logo.png" alt="logo" className='w-20 h-15' />
+        <div className='flex sticky top-10 max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg z-50'>
+            <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
             <div className='text-balance font-bold text-2xl my-auto'>
                 Systelle
             </div>
@@ -14,10 +16,15 @@ export const Navbar = () => {
                 <button className={inactive}>Calendar</button>
                 <button className={inactive}>Health</button>
                 <button className={inactive}>Exercise</button>
-                <button className='w-12 h-12 rounded-full bg-gray-300 shadow-sm ml-6 hover:scale-105 transition delay-100 duration-200 ease-in-out'>👤</button>
+                <button className='w-14 h-14 rounded-full bg-gray-300 shadow-sm ml-8 hover:scale-105 transition delay-100 duration-200 ease-in-out z-50' onClick={()=>setOpen(!open)}>👤</button>
+                {open && (
+                  <div className='fixed inset-0 bg-black/40 z-40 transition delay-150 duration-200 ease-in-out'>
+                    <Menu />
+                  </div>
+                )}
             </div>
         </div>
-        <div className='max-w-[85%] mx-auto bg-white/80 rounded-2xl mt-16 shadow-lg flex flex-col md:flex-row justify-between items-center'>
+        <div className='max-w-[85%] mx-auto bg-white/80 rounded-2xl mt-16 shadow-lg flex flex-col md:flex-row justify-between items-center '>
            <div>
            <h1 className='text-6xl pb-8 pl-28 font-bold'>Hii Krati !!</h1>
            <button className='bg-violet-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-violet-700 rounded-2xl w-96 h-8 ml-16 text-2xl text-white font-semibold'>
@@ -25,7 +32,7 @@ export const Navbar = () => {
            </div>
            {/* Circular Progress */}
           <div className="relative w-80 h-60 mr-16 mb-8 mt-8">
-          <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+          <svg className="w-full h-full transform -rotate-90 " viewBox="0 0 100 100">
             <circle
               cx="50"
               cy="50"
