@@ -1,0 +1,49 @@
+import React from "react";
+
+const Login = () => {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-200 to-blue-100">
+            <div className="bg-white/40 backdrop-blur-lg border border-white/20 rounded-2xl p-10 w-full max-w-md shadow-xl">
+                <div className="flex mb-6">
+                    <img src="/logo.png" alt="logo" className='w-15 h-10' />
+                    <h1 className="text-2xl font-bold text-black">Systelle</h1>
+                </div>
+
+                <h1 className="text-center text-2xl font-bold text-black mb-6">
+                    Login
+                </h1>
+
+                <form className="flex flex-col space-y-4">
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
+                    />
+                    <button
+                        type="submit"
+                        className="bg-violet-600 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"
+                    >
+                        Log in
+                    </button>
+                </form>
+
+                <div className="text-center mt-4 text-sm">
+                    <p className="text-black">Forgot password?</p>
+                    <p className="mt-2 text-black">
+                        Don’t have an account?{" "}
+                        <a href="#" className="text-purple-600 font-medium hover:underline">
+                            Sign up
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Login;
