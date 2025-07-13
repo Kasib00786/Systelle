@@ -1,12 +1,12 @@
 import React from 'react'
-const isactive='bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-full hover:shadow-md'
-const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5'
+const isactive='bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-full max-h-14 my-auto'
+const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out'
 export const Navbar = () => {
   return (
     <div className='bg-gradient-to-r from-pink-100 to-indigo-200 min-h-screen'>
-        <div className='flex sticky top-10 max-w-[85%] bg-white/80 p-5 rounded-2xl mx-auto shadow-lg'>
-            <img src="/logo.png" alt="logo" className='w-15 h-10' />
-            <div className='text-balance font-bold text-2xl'>
+        <div className='flex sticky top-10 max-w-[85%] bg-white/80 p-3 rounded-2xl mx-auto shadow-lg'>
+            <img src="/logo.png" alt="logo" className='w-20 h-15' />
+            <div className='text-balance font-bold text-2xl my-auto'>
                 Systelle
             </div>
             <div className='text-lg font-bold pl-48 flex gap-10'>
@@ -14,12 +14,14 @@ export const Navbar = () => {
                 <button className={inactive}>Calendar</button>
                 <button className={inactive}>Health</button>
                 <button className={inactive}>Exercise</button>
+                <button className='w-12 h-12 rounded-full bg-gray-300 shadow-sm ml-6 hover:scale-105 transition delay-100 duration-200 ease-in-out'>👤</button>
             </div>
         </div>
         <div className='max-w-[85%] mx-auto bg-white/80 rounded-2xl mt-16 shadow-lg flex flex-col md:flex-row justify-between items-center'>
            <div>
            <h1 className='text-6xl pb-8 pl-28 font-bold'>Hii Krati !!</h1>
-           <button className='bg-violet-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-violet-700 rounded-2xl w-96 h-8 ml-16 text-2xl text-white font-semibold'> How was you day? 😊 </button>
+           <button className='bg-violet-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-violet-700 rounded-2xl w-96 h-8 ml-16 text-2xl text-white font-semibold'>
+             How was you day? 😊 </button>
            </div>
            {/* Circular Progress */}
           <div className="relative w-80 h-60 mr-16 mb-8 mt-8">
@@ -29,7 +31,7 @@ export const Navbar = () => {
               cy="50"
               r="40"
               stroke="#e5d4f9"
-              strokeWidth="20"
+              strokeWidth="15"
               fill="none"
             />
             <circle
