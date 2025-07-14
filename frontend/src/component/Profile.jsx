@@ -2,7 +2,6 @@ import React from 'react'
 import { useState } from 'react'
 import Menu from './Menu'
 import { Link } from 'react-router-dom'
-const isactive='bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-full max-h-14 my-auto'
 const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out'
 const Profile = () => {
 const [open,setOpen]=useState(false);
@@ -50,7 +49,7 @@ const [open,setOpen]=useState(false);
                 <div className='pl-5 text-xl font-bold my-auto'>Cycle lasts upto:- 5 days</div>
             </div>
             <Link to='/home'>
-                <button className='mt-3 active:bg-slate-500 w-full bg-violet-600 p-3 rounded-full mx-auto shadow-lg z-10 flex justify-center text-xl font-bold text-white hover:scale-105 hover:bg-violet-800 delay-150 ease-in-out duration-200'>
+                <button className='mt-3 w-full bg-violet-600 p-3 rounded-full mx-auto shadow-lg z-10 flex justify-center text-xl font-bold text-white hover:scale-105 hover:bg-violet-800 delay-150 ease-in-out duration-200'>
                   Update
                 </button>
             </Link>
