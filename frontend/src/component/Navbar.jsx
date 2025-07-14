@@ -5,8 +5,8 @@ const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-
 export const Navbar = () => {
 const [open,setOpen]=useState(false);
   return (
-    <div className='bg-[url(/base2.jpg)] bg-cover bg-center min-h-max'>
-        <div className='flex sticky top-10 max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg z-50'>
+    <div className='bg-[url(/base2.jpg)] bg-cover bg-center h-screen'>
+        <div className='flex sticky top-10 max-w-[85%] bg-white/50 p-2 rounded-2xl mx-auto shadow-lg z-50'>
             <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
             <div className='text-balance font-bold text-2xl my-auto'>
                 Systelle
@@ -24,7 +24,7 @@ const [open,setOpen]=useState(false);
                 )}
             </div>
         </div>
-        <div className='max-w-[85%] mx-auto bg-white/80 rounded-2xl mt-16 shadow-lg flex flex-col md:flex-row justify-between items-center '>
+        <div className='max-w-[85%] mx-auto bg-white/50 rounded-2xl mt-16 shadow-lg flex flex-col md:flex-row justify-between items-center '>
            <div>
            <h1 className='text-6xl pb-8 pl-28 font-bold'>Hii Krati !!</h1>
            <button className='bg-violet-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-violet-700 rounded-2xl w-96 h-8 ml-16 text-2xl text-white font-semibold'>
@@ -59,7 +59,7 @@ const [open,setOpen]=useState(false);
           </div>
         </div>
         </div>
-        <div className="max-w-[85%] mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6 flex flex-col md:flex-row justify-between items-center">
+        <div className="max-w-[85%] mx-auto mt-6 bg-white/50 rounded-2xl shadow-lg p-6 flex flex-col md:flex-row justify-between items-center">
         <div>
         <p className="text-4xl font-bold ml-16 mb-8 mt-8">You have no risk of PCOD/PCOS 🎉</p>
         </div>
