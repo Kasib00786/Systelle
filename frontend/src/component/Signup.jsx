@@ -29,7 +29,7 @@ const Signup = () => {
                         placeholder="Password"
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
-                    <Link to='./home' className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"><button 
+                    <Link to='/form' className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"><button 
                         type="submit"
                     >
                         Sign Up
@@ -40,9 +40,11 @@ const Signup = () => {
                 <div className="text-center mt-4 text-sm">
                     <p className="mt-2 text-black">
                         Have an account?{" "}
+                        <Link to='/'>
                         <a href="#" className="text-purple-600 font-medium hover:underline">
                             login
                         </a>
+                        </Link>
                     </p>
                 </div>
             </div>

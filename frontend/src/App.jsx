@@ -15,7 +15,7 @@ const App=()=>{
     <Routes>
       <Route path="/" element={<Login />}/>
       <Route path="/Signup" element={<Signup />}/>
-      <Route path="/Updateform" element={<Updateform />}/>
+      <Route path="/form" element={<Updateform />}/>
       <Route path="/home" element={<Navbar />}/>
       <Route path="/updates" element={<DailyUpdate />}/>
       <Route path="/calendar" element={<Calendar />}/>
