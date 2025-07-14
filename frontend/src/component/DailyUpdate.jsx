@@ -2,11 +2,12 @@ import React,{useState} from 'react'
 import Menu from './Menu';
 const isactive='bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-full max-h-14 my-auto'
 const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out'
-const btn='rounded-xl bg-white  hover:scale-105  w-32';
+const btn4='rounded-xl bg-white  hover:scale-105  w-32 text-sm';
+const btn2='rounded-xl bg-white hover:scale-105  w-64 text-sm'
 export const DailyUpdate = () => {
 const [open,setOpen]=useState(false);
   return (
-    <div className='bg-gradient-to-r from-pink-100 to-indigo-200 min-h-screen'>
+    <div className='bg-[url(/base2.jpg)] min-h-screen'>
         <div className='flex sticky top-10 max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg z-50'>
             <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
             <div className='text-balance font-bold text-2xl my-auto'>
@@ -28,26 +29,44 @@ const [open,setOpen]=useState(false);
         <div className='mt-16 max-w-[85%] bg-white/45 p-2 rounded-2xl mx-auto shadow-lg z-10 flex gap-2 justify-between'>
           <div className='font-semibold text-lg pl-5'>1.How was your flowing?</div>
             <div className='flex gap-2'>
-              <button className={btn}>Light</button>
-              <button className={btn}>Medium</button>
-              <button className={btn}>Heavy</button>
-              <button className={btn}>Super Heavy</button>
+              <button className={btn4}>Light</button>
+              <button className={btn4}>Medium</button>
+              <button className={btn4}>Heavy</button>
+              <button className={btn4}>Super Heavy</button>
             </div>
         </div>
         <div className='mt-2 max-w-[85%] bg-white/50 p-2 rounded-2xl mx-auto shadow-lg z-10 flex gap-2 justify-between'>
           <div className='font-semibold text-lg pl-5'>2.Any Spotting or irregular spotting?</div>
             <div className='flex gap-2'>
-              <button className='rounded-xl bg-white outline outline-1 hover:scale-105  w-64'>Yes</button>
-              <button className='rounded-xl bg-white outline outline-1 hover:scale-105  w-64'>No</button>
+              <button className={btn2}>Yes</button>
+              <button className={btn2}>No</button>
             </div>
         </div>
         <div className='mt-2 max-w-[85%] bg-white/50 p-2 rounded-2xl mx-auto shadow-lg z-10 flex gap-2 justify-between'>
           <div className='font-semibold text-lg pl-5'>3.How are you felling?</div>
             <div className='flex gap-2'>
-              <button className={btn}>Mood Swing</button>
-              <button className={btn}>Not in control</button>
-              <button className={btn}>Fine</button>
-              <button className={btn}>Happy</button>
+              <button className={btn4}>Mood Swing</button>
+              <button className={btn4}>Not in control</button>
+              <button className={btn4}>Fine</button>
+              <button className={btn4}>Happy</button>
+            </div>
+        </div>
+        <div className='mt-2 max-w-[85%] bg-white/50 p-2 rounded-2xl mx-auto shadow-lg z-10 flex gap-2 justify-between'>
+          <div className='font-semibold text-lg pl-5'>4.What is your pain level?</div>
+            <div className='flex gap-2'>
+              <button className={btn4}>No pain</button>
+              <button className={btn4}>Mild pain</button>
+              <button className={btn4}>Moderate pain</button>
+              <button className={btn4}>Severe pain</button>
+            </div>
+        </div>
+        <div className='mt-2 max-w-[85%] bg-white/50 p-2 rounded-2xl mx-auto shadow-lg z-10 flex gap-2 justify-between'>
+          <div className='font-semibold text-lg pl-5 my-auto'>5.How was your sleep quality?</div>
+            <div className='flex gap-2'>
+              <button className={btn4}>Trouble falling asleep</button>
+              <button className={btn4}>Woke up tired</button>
+              <button className={btn4}>Restless</button>
+              <button className={btn4}>Woke up refreshed</button>
             </div>
         </div>
     </div>

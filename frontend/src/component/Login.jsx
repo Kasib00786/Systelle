@@ -2,7 +2,7 @@ import React from "react";
 
 const Login = () => {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-200 to-blue-100">
+        <div className="min-h-screen flex items-center justify-center bg-[url(/base1.jpg)] bg-cover bg-center">
             <div className="bg-white/40 backdrop-blur-lg outline outline-2 outline-white rounded-2xl p-10 w-full max-w-md shadow-xl">
                 <div className="flex mb-6">
                     <img src="/logo.png" alt="logo" className='w-15 h-10' />

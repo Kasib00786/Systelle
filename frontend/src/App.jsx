@@ -4,6 +4,6 @@ import Menu from "./component/Menu";
 import DailyUpdate from "./component/DailyUpdate";
 import Login from "./component/Login";
 const App=()=>{
-  return <div><Navbar /></div>
+  return <div><Login /></div>
 }
 export default App;

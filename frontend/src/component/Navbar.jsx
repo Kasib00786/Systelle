@@ -5,7 +5,7 @@ const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-
 export const Navbar = () => {
 const [open,setOpen]=useState(false);
   return (
-    <div className='bg-gradient-to-r from-pink-100 to-indigo-200 min-h-max'>
+    <div className='bg-[url(/base2.jpg)] bg-cover bg-center min-h-max'>
         <div className='flex sticky top-10 max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg z-50'>
             <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
             <div className='text-balance font-bold text-2xl my-auto'>
