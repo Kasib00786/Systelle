@@ -5,6 +5,7 @@ import Menu from "./component/Menu";
 import DailyUpdate from "./component/DailyUpdate";
 import Calendar from "./component/Calendar";
 import Login from "./component/Login";
+import Profile from "./component/Profile";
 
 const App=()=>{
   return <><BrowserRouter>
@@ -13,6 +14,7 @@ const App=()=>{
       <Route path="/home" element={<Navbar />}/>
       <Route path="/updates" element={<DailyUpdate />}/>
       <Route path="/calendar" element={<Calendar />}/>
+      <Route path="/profile" element={<Profile />}/>
     </Routes>
     </BrowserRouter>
     </>

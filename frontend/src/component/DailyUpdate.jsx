@@ -46,7 +46,7 @@ const [open,setOpen]=useState(false);
             </div>
         </div>
         <div className='mt-2 max-w-[85%] bg-white/50 p-2 rounded-2xl mx-auto shadow-lg z-10 flex gap-2 justify-between'>
-          <div className='font-semibold text-lg pl-5'>3. How are you felling?</div>
+          <div className='font-semibold text-lg pl-5'>3. How are you feeling?</div>
             <div className='flex gap-2'>
               <button className={btn4}>Mood Swing</button>
               <button className={btn4}>Not in control</button>

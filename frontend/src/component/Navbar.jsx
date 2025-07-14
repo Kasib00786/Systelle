@@ -36,7 +36,8 @@ const [open,setOpen]=useState(false);
              </Link>
            </div>
            {/* Circular Progress */}
-          <div className="relative w-80 h-60 mr-16 mb-8 mt-8">
+          <Link to='/calendar'>
+                <div className="relative w-80 h-60 mr-16 mb-8 mt-8">
           <svg className="w-full h-full transform -rotate-90 " viewBox="0 0 100 100">
             <circle
               cx="50"
@@ -63,12 +64,13 @@ const [open,setOpen]=useState(false);
             15 days<br />to go
           </div>
         </div>
+          </Link>
         </div>
         <div className="max-w-[85%] mx-auto mt-6 bg-white/50 rounded-2xl shadow-lg p-6 flex flex-col md:flex-row justify-between items-center">
         <div>
         <p className="text-4xl font-bold ml-16 mb-8 mt-8">You have no risk of PCOD/PCOS 🎉</p>
         </div>
-        <div className="relative h-4 ml-8 mr-8 bg-gray-200 w-5/6 rounded-xl overflow-hidden">
+        <div className="relative h-4 ml-8 mr-8 bg-white w-5/6 rounded-xl overflow-hidden">
           <div
             className="absolute h-2 m-1 bg-green-500 rounded-xl"
             style={{ width: "25%" }}
