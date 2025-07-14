@@ -8,10 +8,10 @@ const [open,setOpen]=useState(false);
     <div className='bg-[url(/base2.jpg)] bg-cover bg-center h-screen'>
         <div className='flex sticky top-10 max-w-[85%] bg-white/50 p-2 rounded-2xl mx-auto shadow-lg z-50'>
             <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
-            <div className='text-balance font-bold text-2xl my-auto'>
+            <div className='text-balance font-bold text-2xl my-auto mr-16'>
                 Systelle
             </div>
-            <div className='text-lg font-bold pl-48 flex gap-10'>
+            <div className='text-lg font-bold pl-52 flex gap-16'>
                 <button className={isactive}>Dashboard</button>
                 <button className={inactive}>Calendar</button>
                 <button className={inactive}>Health</button>

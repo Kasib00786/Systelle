@@ -2,8 +2,9 @@ import React from "react";
 import Navbar from "./component/Navbar";
 import Menu from "./component/Menu";
 import DailyUpdate from "./component/DailyUpdate";
+import Calendar from "./component/Calendar";
 
 const App=()=>{
-  return <div><DailyUpdate /></div>
+  return <div><Calendar /></div>
 }
 export default App;
