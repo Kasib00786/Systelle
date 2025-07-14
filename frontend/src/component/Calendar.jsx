@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Menu from './Menu'
 import {
   startOfMonth,
@@ -47,25 +48,25 @@ export default function Calendar() {
   const isSelected = d => selectedDates.some(pd => isSameDay(pd, d));
 
   return (
-    <div className='bg-[url(/base1.jpg)] bg-cover bg-center h-screen'>
+    <div className='bg-[url(/base2.jpg)] bg-cover bg-center min-h-screen'>
             <div className='flex sticky top-10 max-w-[85%] bg-white/50 p-2 rounded-2xl mx-auto shadow-lg z-50'>
-                <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
-                <div className='text-balance font-bold text-2xl my-auto mr-16'>
-                    Systelle
-                </div>
-                <div className='text-lg font-bold pl-52 flex gap-16'>
-                    <button className={inactive}>Dashboard</button>
-                    <button className={isactive}>Calendar</button>
-                    <button className={inactive}>Health</button>
-                    <button className={inactive}>Exercise</button>
-                    <button className='w-14 h-14 rounded-full bg-gray-300 shadow-sm ml-8 hover:scale-105 transition delay-100 duration-200 ease-in-out z-50' onClick={()=>setOpen(!open)}>👤</button>
-                    {open && (
-                                      <div className='fixed inset-0 bg-black/40 z-40 transition delay-150 duration-200 ease-in-out'>
-                                        <Menu />
-                                      </div>
-                                    )}
-                </div>
+            <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
+            <div className='text-balance font-bold text-2xl my-auto mr-16'>
+                Systelle
             </div>
+            <div className='text-lg font-bold pl-52 flex gap-5'>
+                <Link to='/home' className={inactive}><button>Dashboard</button></Link>
+                <button className={isactive}>Calendar</button>
+                <button className={inactive}>Health</button>
+                <button className={inactive}>Exercise</button>
+                <button className='w-14 h-14 rounded-full bg-gray-300 shadow-sm ml-7 hover:scale-105 transition delay-100 duration-200 ease-in-out z-50' onClick={()=>setOpen(!open)}>👤</button>
+                {open && (
+                  <div className='fixed inset-0 bg-black/40 z-40 transition delay-150 duration-200 ease-in-out'>
+                    <Menu />
+                  </div>
+                )}
+            </div>
+        </div>
     <div className="max-w-[70%] mx-auto p-6 mt-24 bg-white/70 rounded-xl shadow-xl">
       {/* Month navigation */}
       <div className="flex justify-between items-center mb-8">

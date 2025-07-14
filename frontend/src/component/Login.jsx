@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 const Login = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-[url(/base1.jpg)] bg-cover bg-center">
@@ -23,12 +24,12 @@ const Login = () => {
                         placeholder="Password"
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
-                    <button
+                    <Link to='./home' className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"><button 
                         type="submit"
-                        className="bg-violet-600 transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"
                     >
                         Log in
                     </button>
+                    </Link>
                 </form>
 
                 <div className="text-center mt-4 text-sm">

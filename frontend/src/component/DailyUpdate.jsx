@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import { Link } from 'react-router-dom';
 import Menu from './Menu';
 const isactive='bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-full max-h-14 my-auto'
 const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out'
@@ -8,17 +9,19 @@ export const DailyUpdate = () => {
 const [open,setOpen]=useState(false);
   return (
     <div className='bg-[url(/base2.jpg)] bg-cover bg-center min-h-screen'>
-        <div className='flex sticky top-10 max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg z-50'>
-            <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
+        <div className='flex justify-between sticky top-10 max-w-[85%] bg-white/50 p-2 rounded-2xl mx-auto shadow-lg z-50'>
+            <div className='flex'>
+              <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
             <div className='text-balance font-bold text-2xl my-auto'>
                 Systelle
             </div>
-            <div className='text-lg font-bold pl-48 flex gap-10'>
-                <button className={inactive}>Dashboard</button>
+            </div>
+            <div className='text-lg font-bold flex gap-5'>
+                <Link to='/home' className={inactive}><button>Dashboard</button></Link>
                 <button className={isactive}>Calendar</button>
                 <button className={inactive}>Health</button>
                 <button className={inactive}>Exercise</button>
-                <button className='w-14 h-14 rounded-full bg-gray-300 shadow-sm ml-10 hover:scale-105 transition delay-100 duration-200 ease-in-out z-50' onClick={()=>setOpen(!open)}>👤</button>
+                <button className='w-14 h-14 rounded-full bg-gray-300 shadow-sm ml-5 hover:scale-105 transition delay-100 duration-200 ease-in-out z-50' onClick={()=>setOpen(!open)}>👤</button>
                 {open && (
                   <div className='fixed inset-0 bg-black/40 z-40 transition delay-150 duration-200 ease-in-out'>
                     <Menu />
@@ -105,9 +108,11 @@ const [open,setOpen]=useState(false);
               <button className={btn4}>hair loss</button>
             </div>
         </div>
+        <Link to='/calendar'>
         <button className='mt-2 w-[85%] bg-violet-600 p-2 rounded-full mx-auto shadow-lg z-10 flex justify-center text-xl font-bold text-white hover:scale-105 hover:bg-violet-800 delay-150 ease-in-out duration-200'>
           Update
         </button>
+        </Link>
     </div>
   )
 }
