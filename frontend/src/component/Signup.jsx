@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-const Login = () => {
+const Signup = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-[url(/base1.jpg)] bg-cover bg-center">
             <div className="bg-white/50 backdrop-blur-lg outline outline-2 outline-white rounded-2xl p-10 w-full max-w-md shadow-xl">
@@ -10,10 +10,15 @@ const Login = () => {
                 </div>
 
                 <h1 className="text-center text-2xl font-bold text-black mb-6">
-                    Login
+                    Sign Up
                 </h1>
 
                 <form className="flex flex-col space-y-4">
+                    <input
+                        type="name"
+                        placeholder="Username"
+                        className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
+                    />
                     <input
                         type="email"
                         placeholder="Email"
@@ -24,22 +29,20 @@ const Login = () => {
                         placeholder="Password"
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
-                    <button 
+                    <Link to='/form' className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"><button 
                         type="submit"
-                    ><Link to='./home' className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl">
-                        Log in
-                    </Link>
+                    >
+                        Sign Up
                     </button>
-                    
+                    </Link>
                 </form>
 
                 <div className="text-center mt-4 text-sm">
-                    <p className="text-black">Forgot password?</p>
                     <p className="mt-2 text-black">
-                        Don’t have an account?{" "}
-                        <Link to='signup'>
+                        Have an account?{" "}
+                        <Link to='/'>
                         <a href="#" className="text-purple-600 font-medium hover:underline">
-                            Sign up
+                            login
                         </a>
                         </Link>
                     </p>
@@ -49,4 +52,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;
