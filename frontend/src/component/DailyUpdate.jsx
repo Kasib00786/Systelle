@@ -8,28 +8,28 @@ const btn2='rounded-xl bg-white hover:scale-105  w-64 text-sm'
 export const DailyUpdate = () => {
 const [open,setOpen]=useState(false);
   return (
-    <div className='bg-[url(/base2.jpg)] bg-cover bg-center min-h-screen'>
-        <div className='flex justify-between sticky top-10 max-w-[85%] bg-white/50 p-2 rounded-2xl mx-auto shadow-lg z-50'>
-            <div className='flex'>
-              <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
-            <div className='text-balance font-bold text-2xl my-auto'>
-                Systelle
-            </div>
-            </div>
-            <div className='text-lg font-bold flex gap-5'>
-                <Link to='/home' className={inactive}><button>Dashboard</button></Link>
-                <button className={isactive}>Calendar</button>
-                <button className={inactive}>Health</button>
-                <button className={inactive}>Exercise</button>
-                <button className='w-14 h-14 rounded-full bg-gray-300 shadow-sm ml-5 hover:scale-105 transition delay-100 duration-200 ease-in-out z-50' onClick={()=>setOpen(!open)}>👤</button>
-                {open && (
-                  <div className='fixed inset-0 bg-black/40 z-40 transition delay-150 duration-200 ease-in-out'>
-                    <Menu />
-                  </div>
-                )}
-            </div>
+    <div className='bg-[url(/base2.jpg)] bg-cover bg-center py-10 bg-fixed min-h-screen'>
+        <div className='flex justify-between  max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg z-50 flex-wrap'>
+                    <div className='flex'>
+                      <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
+                    <div className='text-balance font-bold text-2xl my-auto mr-16'>
+                        Systelle
+                    </div>
+                    </div>
+                    <div className='text-lg font-bold flex flex-wrap gap-x-5'>
+                        <Link to='/home' className={inactive}><button>Dashboard</button></Link>
+                        <button className={isactive}>Calendar</button>
+                        <Link to='/health' className={inactive}><button>Health</button></Link>
+                        <Link to='/exercise' className={inactive}><button>Exercise</button></Link>
+                        <button className='w-14 h-14 rounded-full bg-gray-300 shadow-sm ml-7 hover:scale-105 transition delay-100 duration-200 ease-in-out z-50' onClick={()=>setOpen(!open)}>👤</button>
+                        {open && (
+                          <div className='fixed inset-0 bg-black/40 z-40 transition delay-150 duration-200 ease-in-out'>
+                            <Menu />
+                         </div>
+                        )}
+                    </div>
         </div>
-        <div className='mt-16 max-w-[85%] bg-white/45 p-2 rounded-2xl mx-auto shadow-lg z-10 flex gap-2 justify-between'>
+        <div className='mt-8 max-w-[85%] bg-white/45 p-2 rounded-2xl mx-auto shadow-lg z-10 flex gap-2 justify-between'>
           <div className='font-semibold text-lg pl-5'>1. How was your flowing?</div>
             <div className='flex gap-2'>
               <button className={btn4}>Light</button>

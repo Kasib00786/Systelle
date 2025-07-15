@@ -109,7 +109,7 @@ export default function Updateform() {
         <Link to='/home'>
         <button
           type="submit"
-          className="mt-6 w-full py-3 bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"
+          className="mt-6 w-full py-3 bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold rounded-3xl"
         >
           Submit Your Details
         </button>

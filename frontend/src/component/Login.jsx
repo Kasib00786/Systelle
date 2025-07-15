@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 const Login = () => {
     return (
@@ -24,12 +24,13 @@ const Login = () => {
                         placeholder="Password"
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
-                    <Link to='./home' className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"><button 
+                    <button 
                         type="submit"
-                    >
+                    ><Link to='./home' className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl">
                         Log in
-                    </button>
                     </Link>
+                    </button>
+                    
                 </form>
 
                 <div className="text-center mt-4 text-sm">
