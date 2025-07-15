@@ -7,6 +7,7 @@ export const Navbar = () => {
 const [open,setOpen]=useState(false);
   return (
     <div className='bg-[url(/base2.jpg)] bg-cover bg-center bg-fixed py-10 min-h-screen'>
+      {/*Navigation Bar */}
         <div className='flex justify-between  max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg z-30 flex-wrap'>
           <div className='flex'>
                               <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
@@ -27,6 +28,7 @@ const [open,setOpen]=useState(false);
               )}
           </div>
         </div>
+        {/*Container with Daily update and progress */}
         <div className='max-w-[85%] mx-auto bg-white/50 rounded-2xl mt-6 shadow-lg flex justify-between contain-content flex-wrap'>
            <div className='mt-20'>
            <h1 className='text-6xl pb-8 ml-28 font-bold '>Hii Krati !!</h1>
@@ -66,6 +68,7 @@ const [open,setOpen]=useState(false);
         </div>
           </Link>
         </div>
+        {/*Container with risk level*/}
         <div className="max-w-[85%] mx-auto mt-6 bg-white/50 rounded-2xl shadow-lg p-6 flex flex-col md:flex-row justify-between items-center">
         <div>
         <p className="text-4xl font-bold ml-16 mb-8 mt-8">You have no risk of PCOD/PCOS 🎉</p>

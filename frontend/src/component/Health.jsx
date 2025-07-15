@@ -20,7 +20,7 @@ const [open,setOpen]=useState(false);
                 <Link to='/home' className={inactive}><button>Dashboard</button></Link>
                 <Link to='/calendar' className={inactive}><button>Calendar</button></Link>
                 <button className={isactive}>Health</button>
-                <button className={inactive}>Exercise</button>
+                <Link to='/exercise' className={inactive}><button>Exercise</button></Link>
                 <button className='w-14 h-14 rounded-full bg-gray-300 shadow-sm ml-7 hover:scale-105 transition delay-100 duration-200 ease-in-out z-50' onClick={()=>setOpen(!open)}>👤</button>
                 {open && (
                   <div className='fixed inset-0 bg-black/40 z-30 transition delay-150 duration-200 ease-in-out'>
