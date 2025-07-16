@@ -13,28 +13,30 @@ const Signup = () => {
                     Sign Up
                 </h1>
 
-                <form className="flex flex-col space-y-4">
+                <form className="flex flex-col space-y-4" action='/form'>
                     <input
                         type="name"
                         placeholder="Username"
+                        required
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
                     <input
                         type="email"
                         placeholder="Email"
+                        required
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
                     <input
                         type="password"
                         placeholder="Password"
+                        required
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
-                    <Link to='/form' className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"><button 
+                    <input 
                         type="submit"
-                    >
-                        Sign Up
-                    </button>
-                    </Link>
+                        value="Sign up"
+                        className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"
+                    />
                 </form>
 
                 <div className="text-center mt-4 text-sm">

@@ -49,6 +49,7 @@ export default function Calendar() {
 
   return (
     <div className='bg-[url(/base2.jpg)] bg-cover bg-center bg-fixed py-10 min-h-screen'>
+      {/*Navigation Bar */}
       <div className='flex justify-between  max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg z-50 flex-wrap'>
         <div className='flex'>
           <img src="/logo.png" alt="logo" className='w-20 h-12 my-auto' />
@@ -69,6 +70,7 @@ export default function Calendar() {
             )}
         </div>
       </div>
+      {/*Calendar */}
     <div className="max-w-[70%] mx-auto p-6 mt-5 bg-white/70 rounded-xl shadow-xl">
       {/* Month navigation */}
       <div className="flex justify-between items-center mb-8">
