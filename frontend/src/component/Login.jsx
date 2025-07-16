@@ -13,23 +13,24 @@ const Login = () => {
                     Login
                 </h1>
 
-                <form className="flex flex-col space-y-4">
+                <form className="flex flex-col space-y-4" action='/home'>
                     <input
                         type="email"
                         placeholder="Email"
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
+                        required
                     />
                     <input
                         type="password"
+                        required
                         placeholder="Password"
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
-                    <button 
+                        <input 
                         type="submit"
-                    ><Link to='./home' className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl">
-                        Log in
-                    </Link>
-                    </button>
+                        value="Log in"
+                        className="bg-violet-600 flex justify-center transition delay-100 duration-150 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-violet-700 text-white font-bold py-3 rounded-3xl"
+                    />
                     
                 </form>
 
