@@ -10,7 +10,8 @@ import Updateform from "./component/Updateform";
 import Health from "./component/Health";
 import Homepage from "./component/Homepage";
 import Exercise from "./component/Exercise";
-
+import AboutUs from "./component/AboutUs";
+import Help from "./component/Help";
 
 const App=()=>{
   return <><BrowserRouter>
@@ -24,7 +25,8 @@ const App=()=>{
       <Route path="/profile" element={<Profile />}/>
       <Route path="/health" element={<Health/>}/>
       <Route path="/exercise" element={<Exercise/>}/>
-      
+      <Route path="/aboutus" element={<AboutUs/>}/>
+      <Route path="/help" element={<Help/>}/>
     </Routes>
     </BrowserRouter>
     </>
