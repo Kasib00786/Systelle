@@ -71,7 +71,7 @@ export default function Calendar() {
         </div>
       </div>
       {/*Calendar */}
-    <div className="max-w-[70%] mx-auto p-6 mt-5 bg-white/70 rounded-xl shadow-xl">
+    <div className="max-w-[70%] mx-auto p-6 mt-12 bg-white/70 rounded-xl shadow-xl">
       {/* Month navigation */}
       <div className="flex justify-between items-center mb-8">
         <button onClick={() => setCurrentMonth(addMonths(currentMonth, -1))} className="px-3 py-1 rounded hover:bg-purple-100">&lt;</button>
@@ -111,6 +111,11 @@ export default function Calendar() {
         })}
       </div>
     </div>
+    <Link to='/updates'>
+            <button className='mt-8 w-[70%] bg-violet-600 p-2 rounded-full mx-auto shadow-lg z-10 flex justify-center text-xl font-bold text-white hover:scale-105 hover:bg-violet-800 delay-150 ease-in-out duration-200'>
+              Update
+            </button>
+            </Link>
     </div>
   );
 }
