@@ -1,30 +1,36 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
 export default function Updateform() {
-//   const [form, setForm] = useState({
-//     name: '',
-//     dob: '',
-//     age: '',
-//     cycleLength: '',
-//     lastPeriod: '',
-//   });
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setForm((f) => ({ ...f, [name]: value }));
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log('Submitted:', form);
-//     // Add navigation or API call here
-//   };
+const { handleSubmit, register, formState: { errors } } = useForm();
+    
+        const onSubmit = async (data) => {
+        try {
+            const response = await fetch('http://localhost:5000/form', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            });
+    
+            const res = await response.json();
+    
+            if (res.success) {
+                // Redirect to the home page
+                window.location.href = res.redirectUrl;
+            } else {
+                alert("Something went wrong");
+            }
+        } catch (error) {
+            console.error("Error", error);
+        }
+    };
 
   return (
     <div className="h-screen bg-gradient-to-br from-pink-100 to-indigo-200 flex items-center justify-center p-6">
       <form
-        // onSubmit={handleSubmit}
-        action="/home"
+        onSubmit={handleSubmit(onSubmit)}
         className="w-[50%] bg-white bg-opacity-70 backdrop-blur-md rounded-2xl p-8 shadow-lg"
       >
         <h2 className="text-center text-2xl font-bold text-gray-800 mb-6">
@@ -38,8 +44,7 @@ export default function Updateform() {
             <input
               type="text"
               name="name"
-              // value={form.name}
-              // onChange={handleChange}
+              {...register("name", { required: true })}
               className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400"
               placeholder="Your name"
               required
@@ -54,8 +59,7 @@ export default function Updateform() {
             <input
               type="date"
               name="dob"
-              // value={form.dob}
-              // onChange={handleChange}
+              {...register("DOB", { required: true })}
               className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400"
               required
             />
@@ -67,8 +71,7 @@ export default function Updateform() {
             <input
               type="number"
               name="age"
-              // value={form.age}
-              // onChange={handleChange}
+              {...register("age", { required: true })}
               className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400"
               placeholder="Your age"
               required
@@ -83,8 +86,7 @@ export default function Updateform() {
             <input
               type="number"
               name="cycleLength"
-              // value={form.cycleLength}
-              // onChange={handleChange}
+              {...register("TotalDays", { required: true })}
               className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400"
               placeholder="e.g., 28"
               required
@@ -99,8 +101,7 @@ export default function Updateform() {
             <input
               type="date"
               name="lastPeriod"
-              // value={form.lastPeriod}
-              // onChange={handleChange}
+              {...register("LastDate", { required: true })}
               className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400"
               required
             />
@@ -112,6 +113,7 @@ export default function Updateform() {
             <input
               type="number"
               name="cycleLength"
+              {...register("LastsUpto", { required: true })}
               className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400"
               placeholder="e.g., 5"
               required

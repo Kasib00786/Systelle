@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import session from 'express-session';
+// import session from 'express-session';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,19 +13,19 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
-    secret: "mySecretKey"
-}))
+// app.use(session({
+//     secret: "mySecretKey"
+// }))
 
 // Routes
 app.get("/", (req, res) => {
     res.send("Hello server");
 });
 
-app.get("/login", (req, res)=> {
-    if (req.session.user) return res.redirectUrl('/home')
-    res.render('login')
-})
+// app.get("/login", (req, res)=> {
+//     if (req.session.user) return res.redirectUrl('/home')
+//     res.render('login')
+// })
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
     console.log("Received login data:", req.body);
@@ -37,6 +37,16 @@ app.post("/login", (req, res) => {
 
     // Invalid credentials
     return res.status(401).json({ success: false, message: 'Invalid credentials' });
+});
+app.post("/signup", (req, res) => {
+    const {name, email, password } = req.body;
+    console.log("Received signup data:", req.body);
+    res.status(200).json({ success: true, redirectUrl: '/form' });
+});
+app.post("/form", (req, res) => {
+    const {name, DOB, age, TotalDays, LastDate, LastsUpto } = req.body;
+    console.log("Received signup data:", req.body);
+    res.status(200).json({ success: true, redirectUrl: '/home' });
 });
 
 // Start server
