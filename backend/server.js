@@ -48,6 +48,11 @@ app.post("/form", (req, res) => {
     console.log("Received signup data:", req.body);
     res.status(200).json({ success: true, redirectUrl: '/home' });
 });
+app.post("/dailyUpdate", (req, res) => {
+    const dailyAnswers = req.body;
+    console.log("Received daily update:", dailyAnswers);
+    res.status(200).json({ success: true, message: "Daily update saved" });
+});
 
 // Start server
 app.listen(PORT, () => {

@@ -12,11 +12,13 @@ import Homepage from "./component/Homepage";
 import Exercise from "./component/Exercise";
 import AboutUs from "./component/AboutUs";
 import Help from "./component/Help";
+import LandingPage from "./component/LandingPage";
 
 const App=()=>{
   return <><BrowserRouter>
     <Routes>
-      <Route path="/" element={<Login />}/>
+      <Route path="/" element={<LandingPage/>}/>
+      <Route path="/login" element={<Login />}/>
       <Route path="/signup" element={<Signup />}/>
       <Route path="/form" element={<Updateform />}/>
       <Route path="/home" element={<Homepage/>}/>
