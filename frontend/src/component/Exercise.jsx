@@ -77,7 +77,7 @@ const Exercise = () => {
               key={index}
               className="rounded-xl border border-transparent bg-white px-2 sm:px-4 py-3 transition-all duration-300 hover:-translate-y-1 hover:border hover:border-purple-400 shadow-sm"
             >
-              <h2 className="font-semibold text-lg text-gray-800 mb-4 px-2">
+              <h2 className="font-bold text-lg text-gray-800 mb-4 px-2">
                 {level.title}
               </h2>
 

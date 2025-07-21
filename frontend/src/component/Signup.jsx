@@ -1,6 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
 const Signup = () => {
+    const { handleSubmit, register, formState: { errors } } = useForm();
+    
+        const onSubmit = async (data) => {
+        try {
+            const response = await fetch('http://localhost:5000/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            });
+    
+            const res = await response.json();
+    
+            if (res.success) {
+                // Redirect to the home page
+                window.location.href = res.redirectUrl;
+            } else {
+                alert("Signup failed");
+            }
+        } catch (error) {
+            console.error("Error during signup", error);
+        }
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-[url(/base1.jpg)] bg-cover bg-center">
             <div className="bg-white/50 backdrop-blur-lg outline outline-2 outline-white rounded-2xl p-10 w-full max-w-md shadow-xl">
@@ -13,23 +39,23 @@ const Signup = () => {
                     Sign Up
                 </h1>
 
-                <form className="flex flex-col space-y-4" action='/form'>
+                <form className="flex flex-col space-y-4" onSubmit={handleSubmit(onSubmit)}>
                     <input
                         type="name"
                         placeholder="Username"
-                        required
+                        {...register("name", { required: true })}
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
                     <input
                         type="email"
                         placeholder="Email"
-                        required
+                        {...register("email", { required: true })}
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
                     <input
                         type="password"
                         placeholder="Password"
-                        required
+                        {...register("password", { required: true })}
                         className="px-4 py-3 rounded-full border border-gray-400 focus:outline-none"
                     />
                     <input 
@@ -42,7 +68,7 @@ const Signup = () => {
                 <div className="text-center mt-4 text-sm">
                     <p className="mt-2 text-black">
                         Have an account?{" "}
-                        <Link to='/'>
+                        <Link to='/login'>
                         <a href="#" className="text-purple-600 font-medium hover:underline">
                             login
                         </a>

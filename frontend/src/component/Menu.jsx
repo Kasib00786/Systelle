@@ -10,15 +10,15 @@ export const Menu = () => {
                 <button className='pl-4 '>Krati Gupta</button></Link>
             </div>
             <div className={sty}>
-                <button className='w-10 h-10 rounded-full bg-slate-200 outline outline-1 outline-black font-semibold text-3xl'>i</button>
-                <button className='pl-4'>Help</button>
+                <Link to='/help'><button className='w-10 h-10 rounded-full bg-slate-200 outline outline-1 outline-black font-semibold text-3xl'>i</button>
+                <button className='pl-4'>Help</button></Link>
             </div>
             <div className={sty}>
-                <button className='w-10 h-10 rounded-full bg-slate-200 outline outline-1 outline-black font-semibold text-3xl'>?</button>
-                <button className='pl-4'>About Us</button>
+                <Link to='/aboutus'><button className='w-10 h-10 rounded-full bg-slate-200 outline outline-1 outline-black font-semibold text-3xl'>?</button>
+                <button className='pl-4'>About Us</button></Link>
             </div>
             <div className={sty}>
-                <Link to='/'>
+                <Link to='/login'>
                 <button className='w-10 h-10 rounded-full bg-slate-200 outline outline-1 outline-black '>❌</button>
                 <button className='pl-4'>Log Out</button>
                 </Link>

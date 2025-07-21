@@ -6,7 +6,7 @@ const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-
 export const Navbar = () => {
 const [open,setOpen]=useState(false);
   return (
-    <div className='bg-[url(/base2.jpg)] bg-cover bg-center bg-fixed py-10 min-h-screen'>
+    <div className='bg-[url(/base2.jpg)] bg-cover bg-center py-10 min-h-screen'>
       {/*Navigation Bar */}
         <div className='flex justify-between  max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg z-30 flex-wrap'>
           <div className='flex'>

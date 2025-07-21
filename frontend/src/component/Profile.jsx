@@ -58,4 +58,4 @@ const [open,setOpen]=useState(false);
   )
 }
 
-export default Profile
+export default Profile;
