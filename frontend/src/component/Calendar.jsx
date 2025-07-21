@@ -112,7 +112,7 @@ export default function Calendar() {
       </div>
     </div>
     <Link to='/updates'>
-            <button className='mt-8 w-[70%] bg-violet-600 p-2 rounded-full mx-auto shadow-lg z-10 flex justify-center text-xl font-bold text-white hover:scale-105 hover:bg-violet-800 delay-150 ease-in-out duration-200'>
+            <button className='mt-8 w-[15%] bg-violet-600 p-2 rounded-full mx-auto shadow-lg z-10 flex justify-center text-xl font-bold text-white hover:scale-105 hover:bg-violet-800 delay-150 ease-in-out duration-200'>
               Update
             </button>
             </Link>

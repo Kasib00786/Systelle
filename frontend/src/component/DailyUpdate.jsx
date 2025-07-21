@@ -6,7 +6,7 @@ const isactive = 'bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded
 const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out';
 const btn4 = 'rounded-xl bg-white hover:scale-105 w-32 text-sm';
 const btn2 = 'rounded-xl bg-white hover:scale-105 w-64 text-sm';
-const selectedBtn = 'bg-violet-300 text-white scale-105 shadow-md'; // Add selected style
+const selectedBtn = 'bg-violet-700 text-white scale-105 shadow-md'; // Add selected style
 
 export const DailyUpdate = () => {
   const [open, setOpen] = useState(false);
@@ -110,7 +110,7 @@ export const DailyUpdate = () => {
 
       <button
         onClick={handleSubmit}
-        className='mt-2 w-[85%] bg-violet-600 p-2 rounded-full mx-auto shadow-lg z-10 flex justify-center text-xl font-bold text-white hover:scale-105 hover:bg-violet-800 delay-150 ease-in-out duration-200'
+        className='mt-8 w-[15%] bg-violet-600 p-2 rounded-full mx-auto shadow-lg flex justify-center text-xl font-bold text-white hover:scale-105 hover:bg-violet-800 delay-150 ease-in-out duration-200'
       >
         Update
       </button>

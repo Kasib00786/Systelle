@@ -7,7 +7,7 @@ const inactive =
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 to-indigo-200 text-gray-800 overflow-x-hidden">
-      
+      <div className="bg-[url(/base2.jpg)] bg-cover bg-center min-h-screen">
       {/* Navbar */}
       <div className="w-full flex justify-between items-center px-6 py-4">
         {/* Left: Logo + Name */}
@@ -23,7 +23,7 @@ const LandingPage = () => {
         {/* Right: Navigation Links */}
         <div className="flex space-x-6 font-medium">
           <Link to="/home" className={inactive}>Home</Link>
-          <Link to="/about" className={inactive}>About</Link>
+          <Link to="/aboutus" className={inactive}>About</Link>
           <Link
             to="/login"
             className="bg-violet-500 text-white px-6 py-2 rounded-full shadow hover:scale-105 transition"
@@ -54,24 +54,24 @@ const LandingPage = () => {
           {
             title: 'Cycle Tracker',
             desc: 'Predict your period and ovulation with precision.',
-            img: 'tracker.png',
+            img: 'tracker.jpg',
           },
           {
             title: 'Health Insights',
             desc: 'Stay informed with PCOS/PCOD risk alerts.',
-            img: 'pcod.png',
+            img: 'pcod.jpg',
           },
           {
             title: 'Mood & Symptom Logs',
             desc: 'Track how you feel daily and log symptoms easily.',
-            img: 'mood.png',
+            img: 'mood.jpg',
           },
         ].map(({ title, desc, img }, i) => (
           <div
             key={i}
-            className="bg-white/80 rounded-2xl shadow-md hover:scale-105 transition overflow-hidden"
+            className="bg-white/50 rounded-2xl shadow-md hover:scale-105 transition overflow-hidden"
           >
-            <img src={img} alt={title} className="w-full h-56 object-cover" />
+            <img src={img} alt={title} className="w-full h-56 p-2 rounded-2xl object-cover" />
             <div className="px-4 py-3">
               <h3 className="text-lg font-semibold mb-1">{title}</h3>
               <p className="text-gray-700 text-sm">{desc}</p>
@@ -84,6 +84,7 @@ const LandingPage = () => {
       <footer className="mt-24 p-6 text-center text-gray-700 text-sm">
         © {new Date().getFullYear()} Systelle. All rights reserved.
       </footer>
+    </div>
     </div>
   );
 };
