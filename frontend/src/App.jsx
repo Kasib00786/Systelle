@@ -16,6 +16,8 @@ import LandingPage from "./component/LandingPage";
 import BloodAmount from "./component/BloodAmount";
 import PeriodColor from "./component/PeriodColor";
 import PeriodPain from "./component/PeriodPain";
+import CrampRelief from "./component/CrampRelief";
+import Food from "./component/Food";
 
 const App=()=>{
   return <><BrowserRouter>
@@ -35,6 +37,8 @@ const App=()=>{
       <Route path="/BloodAmount" element={<BloodAmount />} />
       <Route path="/PeriodColor" element={<PeriodColor />} />
       <Route path="/PeriodPain" element={<PeriodPain />} />
+      <Route path="/CrampRelief" element={<CrampRelief />} />
+      <Route path="/Food" element={<Food />} />
     </Routes>
     </BrowserRouter>
     </>

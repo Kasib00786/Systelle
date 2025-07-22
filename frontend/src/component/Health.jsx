@@ -41,8 +41,8 @@ const Health = () => {
         <h2 className="text-center text-2xl font-bold">About Your Period</h2>
         <div className="flex-grow h-1 ml-4 bg-gradient-to-r from-transparent via-blue-950 to-transparent" />
         </div>
-
         <div className="flex justify-around flex-wrap gap-5">
+         
           <Link to="/BloodAmount" className="flex flex-col items-center bg-white/60 p-4 rounded-2xl w-70 shadow hover:scale-105 transition cursor-pointer">
             <img src="img1.png" alt="Normal Flow" className="w-70 h-52 rounded-lg" />
             <button className="text-lg font-medium pt-2">How much period blood is normal?</button>
@@ -69,16 +69,19 @@ const Health = () => {
         <div className="flex-grow h-1 ml-4 bg-gradient-to-r from-transparent via-blue-950 to-transparent" />
         </div>
         <div className="flex flex-col gap-6">
-          <div className="overflow-hidden rounded-xl shadow-md hover:scale-[1.01] transition bg-white">
+
+          <Link to="/CrampRelief" className="overflow-hidden rounded-xl shadow-md hover:scale-[1.01] transition bg-white cursor-pointer">
             <img src="pain.png" alt="Reduce Cramps" className="w-full h-60" />
-            <p className="text-lg font-medium m-4">How to reduce period cramps?</p>
-          </div>
-          <div className="overflow-hidden rounded-xl shadow-md hover:scale-[1.01] transition bg-white">
+            <div className="text-lg font-medium m-4">How to reduce period cramps?</div>
+          </Link>
+
+          <Link to="/Food" className="overflow-hidden rounded-xl shadow-md hover:scale-[1.01] transition bg-white cursor-pointer">
             <img src="food.jpg" alt="Healthy Foods" className="w-full h-60" />
-            <p className="text-lg font-medium p-4">Top 10 foods that help with period cramps</p>
-          </div>
+            <div className="text-lg font-medium p-4">Top 10 foods that help with period cramps</div>
+          </Link>
         </div>
       </div>
+
     </div>
   );
 };
