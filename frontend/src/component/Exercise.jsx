@@ -71,13 +71,13 @@ const Exercise = () => {
 
       {/* Exercise Section */}
       <div className="mt-10 flex items-center justify-center px-4">
-        <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-4 sm:p-6 w-full max-w-6xl space-y-6">
+        <div className="bg-white/50 max-w-[85%] backdrop-blur-md shadow-xl rounded-2xl p-4 sm:p-6 w-full space-y-6">
           {levels.map((level, index) => (
             <div
               key={index}
-              className="rounded-xl border border-transparent bg-white px-2 sm:px-4 py-3 transition-all duration-300 hover:-translate-y-1 hover:border hover:border-purple-400 shadow-sm"
+              className="rounded-xl border border-transparent bg-white/50 px-2 sm:px-4 py-3 transition-all duration-300 hover:-translate-y-1 hover:border hover:border-purple-400 shadow-sm"
             >
-              <h2 className="font-bold text-lg text-gray-800 mb-4 px-2">
+              <h2 className="font-bold text-2xl text-gray-800 mb-4 px-2">
                 {level.title}
               </h2>
 

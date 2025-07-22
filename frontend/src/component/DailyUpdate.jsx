@@ -6,7 +6,7 @@ const isactive = 'bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded
 const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out';
 const btn4 = 'rounded-xl bg-white hover:scale-105 w-32 text-sm';
 const btn2 = 'rounded-xl bg-white hover:scale-105 w-64 text-sm';
-const selectedBtn = 'bg-violet-700 text-white scale-105 shadow-md'; // Add selected style
+const selectedBtn = 'bg-violet-700 text-white shadow-md'; // Add selected style
 
 export const DailyUpdate = () => {
   const [open, setOpen] = useState(false);

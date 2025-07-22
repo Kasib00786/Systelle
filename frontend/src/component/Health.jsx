@@ -58,7 +58,8 @@ const Health = () => {
       </div>
 
       {/* Health Tips Section */}
-      <div className='p-5 shadow-md rounded-2xl max-w-[85%] mx-auto mt-5 bg-white/60'><div className="flex items-center pb-8">
+      <div className='p-5 shadow-md rounded-2xl max-w-[85%] mx-auto mt-5 bg-white/60'>
+      <div className="flex items-center pb-8">
       <div className="flex-grow h-1 mr-4 bg-gradient-to-r from-transparent via-blue-950 to-transparent" />
         <h2 className="text-center text-2xl font-bold">Health Tips</h2>
         <div className="flex-grow h-1 ml-4 bg-gradient-to-r from-transparent via-blue-950 to-transparent" />
