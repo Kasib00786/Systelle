@@ -13,6 +13,9 @@ import Exercise from "./component/Exercise";
 import AboutUs from "./component/AboutUs";
 import Help from "./component/Help";
 import LandingPage from "./component/LandingPage";
+import BloodAmount from "./component/BloodAmount";
+import PeriodColor from "./component/PeriodColor";
+import PeriodPain from "./component/PeriodPain";
 
 const App=()=>{
   return <><BrowserRouter>
@@ -29,6 +32,9 @@ const App=()=>{
       <Route path="/exercise" element={<Exercise/>}/>
       <Route path="/aboutus" element={<AboutUs/>}/>
       <Route path="/help" element={<Help/>}/>
+      <Route path="/BloodAmount" element={<BloodAmount />} />
+      <Route path="/PeriodColor" element={<PeriodColor />} />
+      <Route path="/PeriodPain" element={<PeriodPain />} />
     </Routes>
     </BrowserRouter>
     </>

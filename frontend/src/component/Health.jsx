@@ -41,24 +41,29 @@ const Health = () => {
         <h2 className="text-center text-2xl font-bold">About Your Period</h2>
         <div className="flex-grow h-1 ml-4 bg-gradient-to-r from-transparent via-blue-950 to-transparent" />
         </div>
-        <div className="flex justify-around flex-wrap">
-          <div className="flex flex-col items-center bg-white/60 p-4 rounded-2xl w-70 shadow hover:scale-105 transition">
+
+        <div className="flex justify-around flex-wrap gap-5">
+          <Link to="/BloodAmount" className="flex flex-col items-center bg-white/60 p-4 rounded-2xl w-70 shadow hover:scale-105 transition cursor-pointer">
             <img src="img1.png" alt="Normal Flow" className="w-70 h-52 rounded-lg" />
             <button className="text-lg font-medium pt-2">How much period blood is normal?</button>
-          </div>
-          <div className="flex flex-col items-center bg-white/60 p-4 rounded-2xl w-70 shadow hover:scale-105 transition">
+          </Link>
+
+          <Link to="/PeriodColor" className="flex flex-col items-center bg-white/60 p-4 rounded-2xl w-70 shadow hover:scale-105 transition cursor-pointer">
             <img src="img2.png" alt="Color Meaning" className="w-70 h-52 rounded-lg" />
             <button className="text-lg font-medium pt-2">What does my period color mean?</button>
-          </div>
-          <div className="flex flex-col items-center bg-white/60 p-4 rounded-2xl w-70 shadow hover:scale-105 transition">
+          </Link>
+
+          <Link to="/PeriodPain" className="flex flex-col items-center bg-white/60 p-4 rounded-2xl w-70 shadow hover:scale-105 transition">
             <img src="img3.png" alt="Pain" className="w-52 h-52 rounded-lg" />
             <button className="text-lg font-medium pt-2">Why does it pain during periods?</button>
-          </div>
+          </Link>
+
         </div>
       </div>
 
       {/* Health Tips Section */}
-      <div className='p-5 shadow-md rounded-2xl max-w-[85%] mx-auto mt-5 bg-white/60'><div className="flex items-center pb-8">
+      <div className='p-5 shadow-md rounded-2xl max-w-[85%] mx-auto mt-5 bg-white/60'>
+      <div className="flex items-center pb-8">
       <div className="flex-grow h-1 mr-4 bg-gradient-to-r from-transparent via-blue-950 to-transparent" />
         <h2 className="text-center text-2xl font-bold">Health Tips</h2>
         <div className="flex-grow h-1 ml-4 bg-gradient-to-r from-transparent via-blue-950 to-transparent" />
