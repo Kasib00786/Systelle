@@ -7,7 +7,7 @@ const inactive =
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 to-indigo-200 text-gray-800 overflow-x-hidden">
-      <div className="bg-[url(/base2.jpg)] bg-cover bg-center min-h-screen">
+      <div className="bg-[url(/base3.jpg)] bg-cover bg-center min-h-screen">
       {/* Navbar */}
       <div className="w-full flex justify-between items-center px-6 py-4">
         {/* Left: Logo + Name */}
@@ -22,7 +22,7 @@ const LandingPage = () => {
 
         {/* Right: Navigation Links */}
         <div className="flex space-x-6 font-medium">
-          <Link to="/home" className={inactive}>Home</Link>
+          <button className={inactive}>Help</button>
           <Link to="/aboutus" className={inactive}>About</Link>
           <Link
             to="/login"
@@ -42,7 +42,7 @@ const LandingPage = () => {
           Track your cycle, understand your body, and stay in control with Systelle.
         </p>
         <Link to="/signup">
-          <button className="mt-6 bg-violet-600 hover:bg-violet-700 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition">
+          <button className="mt-6 bg-violet-600 hover:bg-violet-700 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition hover:scale-110">
             Get Started
           </button>
         </Link>
