@@ -44,7 +44,7 @@ useEffect(() => {
         <div className='max-w-[85%] mx-auto bg-white/50 rounded-2xl mt-6 shadow-lg flex justify-between contain-content flex-wrap'>
            <div className='mt-20'>
            <h1 className='text-6xl pb-8 ml-28 font-bold '>Hii Krati !!</h1>
-           <Link to='/updates'>
+           <Link to='/calendar/updates'>
            <button className='bg-violet-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-violet-700 rounded-2xl w-96 h-8 ml-16 text-2xl text-white font-semibold'>
              How was your day? 😊 </button>
              </Link>

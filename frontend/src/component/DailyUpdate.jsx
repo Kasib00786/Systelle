@@ -62,26 +62,40 @@ export const DailyUpdate = () => {
       });
   }, []);
   const handleSubmit = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/calendar/updates', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(answers),
-      });
+  try {
+    const response = await fetch('http://localhost:5000/calendar/updates', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // important for sending session cookie
+      body: JSON.stringify({
+        flowing: answers.q1,
+        spotting: answers.q2,
+        feelings: answers.q3,
+        pain_level: answers.q4,
+        sleep_quality: answers.q5,
+        energy: answers.q6,
+        mind: answers.q7,
+        skin: answers.q8,
+        hair: answers.q9
+      }),
+    });
 
-      if (response.ok) {
-        alert('Update saved successfully!');
-        navigate('/calendar'); // redirect
-      } else {
-        alert('Failed to save update.');
-      }
-    } catch (error) {
-      console.error('Error sending update:', error);
-      alert('Server error');
+    const data = await response.json();
+
+    if (data.success) {
+      alert('Update saved successfully!');
+      navigate('/calendar');
+    } else {
+      alert('Failed to save update.');
     }
-  };
+  } catch (error) {
+    console.error('Error sending update:', error);
+    alert('Server error');
+  }
+};
+
   
 
   return (
