@@ -2,10 +2,21 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import session from 'express-session';
+import mongoose from 'mongoose'
 import { isAuthenticated, blockAuthenticated } from './authentication.js'; // Assuming these are defined in authentication.js
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// MongoDB Connection
+mongoose.connect('mongodb://localhost:27017/Systelle', {
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true
+}).then(() => {
+    console.log('MongoDB connected');
+}).catch((err) => {
+    console.error('MongoDB connection error:', err);
+});
 
 // Middleware
 app.use(cors({
@@ -28,16 +39,49 @@ app.get("/", (req, res) => {
     res.send("Hello server");
 });
 
+// Mongoose Schemas
+const UserSchema = new mongoose.Schema({
+    name: String,
+    email: { type: String, unique: true },
+    password: String
+});
 
+const ProfileSchema = new mongoose.Schema({
+    userId: mongoose.Schema.Types.ObjectId,
+    DOB: String,
+    age: Number,
+    TotalDays: Number,
+    LastDate: String,
+    LastsUpto: Number
+});
+
+const DailyUpdateSchema = new mongoose.Schema({
+    userId: mongoose.Schema.Types.ObjectId,
+    date:{
+        type: Date,
+        default: Date.now, // ⬅️ Automatically sets current date/time
+    },
+    flowing:String,
+    spotting:String, 
+    pain_level:String,
+    sleep_quality:String,
+    energy:String, 
+    mind:String, 
+    skin:String, 
+    hair:String
+});
+
+const User = mongoose.model('User', UserSchema);
+const Profile = mongoose.model('Profile', ProfileSchema);
+const DailyUpdate = mongoose.model('DailyUpdate', DailyUpdateSchema);
 
 // Login POST route for actual login
-app.post("/login", (req, res) => {
+app.post("/login",async (req, res) => {
     const { email, password } = req.body;
-    console.log("Received login data:", req.body);
+    const user = await User.findOne({ email, password });
 
-    if (email === "kasib7890@gmail.com" && password === "12345") {
-        // Save user session
-        req.session.user = { email };
+    if (user) {
+        req.session.user = { email, _id: user._id };
         return res.status(200).json({ success: true, redirectUrl: '/home' });
     }
 
@@ -54,24 +98,37 @@ app.post("/logout", (req, res) => {
 });
 
 // Signup route
-app.post("/signup", (req, res) => {
+app.post("/signup", async (req, res) => {
     const { name, email, password } = req.body;
-    console.log("Received signup data:", req.body);
-    req.session.user = { email };
-    res.status(200).json({ success: true, redirectUrl: '/form' });
+    try {
+        const newUser = new User({ name, email, password });
+        await newUser.save();
+        req.session.user = { email, _id: newUser._id };
+        res.status(200).json({ success: true, redirectUrl: '/signup/form' });
+    } catch (error) {
+        res.status(400).json({ success: false, message: 'Signup failed', error });
+    }
 });
 
 // Form route
-app.post("/signup/form", (req, res) => {
-    const { name, DOB, age, TotalDays, LastDate, LastsUpto } = req.body;
-    console.log("Received form data:", req.body);
+app.post("/signup/form", isAuthenticated, async (req, res) => {
+    const { DOB, age, TotalDays, LastDate, LastsUpto } = req.body;
+    const profile = new Profile({
+        userId: req.session.user._id,
+        DOB, age, TotalDays, LastDate, LastsUpto
+    });
+    await profile.save();
     res.status(200).json({ success: true, redirectUrl: '/home' });
 });
 
 // Daily update route
-app.post("/calendar/updates", (req, res) => {
-    const dailyAnswers = req.body;
-    console.log("Received daily update:", dailyAnswers);
+app.post("/calendar/updates", isAuthenticated, async (req, res) => {
+    const { flowing, spotting, pain_level, sleep_quality, energy, mind, skin, hair } = req.body;
+    const update = new DailyUpdate({
+        userId: req.session.user._id,
+        flowing, spotting, pain_level,sleep_quality, energy, mind, skin, hair
+    });
+    await update.save();
     res.status(200).json({ success: true, message: "Daily update saved" });
 });
 
