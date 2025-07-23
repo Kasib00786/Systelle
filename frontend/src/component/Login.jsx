@@ -3,6 +3,18 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
+    useEffect(() => {
+        fetch('http://localhost:5000/login', {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(res => {
+            if (res.status === 401) {
+                alert("You are already logged in");
+                window.location.replace('/home');
+            }
+        });
+    }, []);
     const { handleSubmit, register, formState: { errors } } = useForm();
 
     const onSubmit = async (data) => {

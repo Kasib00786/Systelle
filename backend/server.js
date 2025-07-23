@@ -57,29 +57,56 @@ app.post("/logout", (req, res) => {
 app.post("/signup", (req, res) => {
     const { name, email, password } = req.body;
     console.log("Received signup data:", req.body);
+    req.session.user = { email };
     res.status(200).json({ success: true, redirectUrl: '/form' });
 });
 
 // Form route
-app.post("/form", (req, res) => {
+app.post("/signup/form", (req, res) => {
     const { name, DOB, age, TotalDays, LastDate, LastsUpto } = req.body;
     console.log("Received form data:", req.body);
     res.status(200).json({ success: true, redirectUrl: '/home' });
 });
 
 // Daily update route
-app.post("/dailyUpdate", (req, res) => {
+app.post("/calendar/updates", (req, res) => {
     const dailyAnswers = req.body;
     console.log("Received daily update:", dailyAnswers);
-
-    if (!req.session.user) {
-        return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
-
     res.status(200).json({ success: true, message: "Daily update saved" });
 });
 
-
+//managing user session
+app.get("/signup/form", isAuthenticated, (req, res) => {
+    res.status(200).json({ message: `You are at ${req.params.subroute}` });
+});
+app.get("/home/:subroute", isAuthenticated, (req, res) => {
+    res.status(200).json({ message: `You are at ${req.params.subroute}` });
+});
+app.get("/home", isAuthenticated, (req, res) => {
+    res.status(200).json({ message: `You are at ${req.params.subroute}` });
+});
+app.get('/login',(req, res) => {
+    if(req.session.user) return res.status(401).json({ success: false, message: "Unauthorized" });
+    res.status(200).json({ message: "Login page access granted" });
+});
+app.get("/calendar", isAuthenticated, (req, res) => {
+    res.status(200).json({ message: `You are at ${req.params.subroute}` });
+});
+app.get("/calendar/:subroute", isAuthenticated, (req, res) => {
+    res.status(200).json({ message: `You are at ${req.params.subroute}` });
+});
+app.get("/health", isAuthenticated, (req, res) => {
+    res.status(200).json({ message: `You are at ${req.params.subroute}` });
+});
+app.get("/health/:subroute", isAuthenticated, (req, res) => {
+    res.status(200).json({ message: `You are at ${req.params.subroute}` });
+});
+app.get("/exercise", isAuthenticated, (req, res) => {
+    res.status(200).json({ message: `You are at ${req.params.subroute}` });
+});
+app.get("/exercise/:subroute", isAuthenticated, (req, res) => {
+    res.status(200).json({ message: `You are at ${req.params.subroute}` });
+});
 
 // Start server
 app.listen(PORT, () => {

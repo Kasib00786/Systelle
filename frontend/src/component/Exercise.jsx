@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Menu from './Menu';
 
 const isactive = 'bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-full max-h-14 my-auto';
 const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out';
-
 
 const levels = [
   {
@@ -36,10 +35,19 @@ const levels = [
   },
 ];
 
-
 const Exercise = () => {
   const [open, setOpen] = useState(false);
-
+  useEffect(() => {
+      fetch('http://localhost:5000/exercise', {
+          method: 'GET',
+          credentials: 'include'
+      })
+      .then(res => {
+          if (res.status === 401) {
+              window.location.replace('/login');
+          }
+      });
+  }, []);
   return (
     <div className="py-10 bg-[url(/base2.jpg)] bg-cover bg-center bg-fixed min-h-screen">
       {/* Navbar */}
@@ -82,22 +90,39 @@ const Exercise = () => {
               </h2>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                {level.days.map((day, idx) => (
-                  <div
-                    key={idx}
-                    className="flex flex-col items-center justify-center px-3 py-3 border rounded-full w-full transform transition duration-300 hover:-translate-y-2 hover:shadow-lg"
-                  >
-                    <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
-                      {day.locked && (
-                        <span className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-xs">
-                          🔒
-                        </span>
-                      )}
-                      {day.day}
+                {level.days.map((day, idx) => {
+                  const isBeginnerDay1 = !day.locked && level.title === "Beginner Level Exercise" && day.day === "DAY 1";
+
+                  return isBeginnerDay1 ? (
+                    <Link to="/exercise/workout" key={idx}>
+                      <div className="flex flex-col items-center justify-center px-3 py-3 border rounded-full w-full transform transition duration-300 hover:-translate-y-2 hover:shadow-lg cursor-pointer bg-white">
+                        <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
+                          {day.day}
+                        </div>
+                        <div className="text-xs text-gray-600">{day.label}</div>
+                      </div>
+                    </Link>
+                  ) : (
+                    <div
+                      key={idx}
+                      className={`flex flex-col items-center justify-center px-3 py-3 border rounded-full w-full transform transition duration-300 ${
+                        day.locked
+                          ? 'bg-gray-200 cursor-not-allowed'
+                          : 'hover:-translate-y-2 hover:shadow-lg cursor-pointer bg-white'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
+                        {day.locked && (
+                          <span className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-xs">
+                            🔒
+                          </span>
+                        )}
+                        {day.day}
+                      </div>
+                      <div className="text-xs text-gray-600">{day.label}</div>
                     </div>
-                    <div className="text-xs text-gray-600">{day.label}</div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           ))}

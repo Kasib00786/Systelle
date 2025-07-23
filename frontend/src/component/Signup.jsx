@@ -68,7 +68,7 @@ const Signup = () => {
                 <div className="text-center mt-4 text-sm">
                     <p className="mt-2 text-black">
                         Have an account?{" "}
-                        <Link to='/login'>
+                        <Link to='/signup/login'>
                         <a href="#" className="text-purple-600 font-medium hover:underline">
                             login
                         </a>

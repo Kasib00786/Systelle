@@ -28,19 +28,19 @@ export const Menu = () => {
         <div className='fixed right-24 mt-28 w-60 rounded-xl bg-white/90 shadow-lg '>
             <div className='flex gap-3 flex-col p-4 text-xl font-bold'>
                 <div className={sty}>
-                    <Link to='/profile'>
+                    <Link to='/home/profile'>
                         <button className='w-10 h-10 rounded-full bg-slate-200 outline outline-1 outline-black'>👤</button>
                         <button className='pl-4'>Krati Gupta</button>
                     </Link>
                 </div>
                 <div className={sty}>
-                    <Link to='/help'>
+                    <Link to='/home/help'>
                         <button className='w-10 h-10 rounded-full bg-slate-200 outline outline-1 outline-black font-semibold text-3xl'>i</button>
                         <button className='pl-4'>Help</button>
                     </Link>
                 </div>
                 <div className={sty}>
-                    <Link to='/aboutus'>
+                    <Link to='/home/aboutus'>
                         <button className='w-10 h-10 rounded-full bg-slate-200 outline outline-1 outline-black font-semibold text-3xl'>?</button>
                         <button className='pl-4'>About Us</button>
                     </Link>

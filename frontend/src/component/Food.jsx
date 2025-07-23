@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Menu from './Menu';
 
@@ -7,7 +7,17 @@ const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-
 
 export default function Food() {
   const [open, setOpen] = useState(false);
-
+  useEffect(() => {
+              fetch('http://localhost:5000/health/Food', {
+                  method: 'GET',
+                  credentials: 'include'
+              })
+              .then(res => {
+                  if (res.status === 401) {
+                      window.location.replace('/login');
+                  }
+              });
+          }, []);
   return (
     <div className='bg-[url("/base2.jpg")] bg-cover bg-center bg-fixed py-10 min-h-screen'>
       {/* Navbar */}

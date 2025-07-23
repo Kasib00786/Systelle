@@ -1,10 +1,21 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import Menu from './Menu'
 import { Link } from 'react-router-dom'
 const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out'
 const Help = () => {
 const [open,setOpen]=useState(false);
+useEffect(() => {
+    fetch('http://localhost:5000/home/help', {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(res => {
+        if (res.status === 401) {
+            window.location.replace('/login');
+        }
+    });
+}, []);
   return (
     <div className='bg-[url(/base2.jpg)] bg-cover bg-center bg-fixed py-10 min-h-screen'>    
         <div className='flex justify-between  max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg flex-wrap'>

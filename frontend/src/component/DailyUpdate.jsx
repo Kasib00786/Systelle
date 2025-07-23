@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Menu from './Menu';
 
@@ -50,10 +50,20 @@ export const DailyUpdate = () => {
       </div>
     </div>
   );
-
+  useEffect(() => {
+      fetch('http://localhost:5000/calendar/updates', {
+          method: 'GET',
+          credentials: 'include'
+      })
+      .then(res => {
+          if (res.status === 401) {
+              window.location.replace('/login');
+          }
+      });
+  }, []);
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:5000/dailyUpdate', {
+      const response = await fetch('http://localhost:5000/calendar/updates', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,6 +82,7 @@ export const DailyUpdate = () => {
       alert('Server error');
     }
   };
+  
 
   return (
     <div className='bg-[url(/base2.jpg)] bg-cover bg-center py-10 bg-fixed min-h-screen'>

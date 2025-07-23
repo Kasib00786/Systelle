@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import Menu from './Menu'
 import {
@@ -46,7 +46,17 @@ export default function Calendar() {
   };
 
   const isSelected = d => selectedDates.some(pd => isSameDay(pd, d));
-
+  useEffect(() => {
+      fetch('http://localhost:5000/calendar', {
+          method: 'GET',
+          credentials: 'include'
+      })
+      .then(res => {
+          if (res.status === 401) {
+              window.location.replace('/login');
+          }
+      });
+  }, []);
   return (
     <div className='bg-[url(/base2.jpg)] bg-cover bg-center bg-fixed py-10 min-h-screen'>
       {/*Navigation Bar */}

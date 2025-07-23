@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 export default function Updateform() {
 const { handleSubmit, register, formState: { errors } } = useForm();
-    
+    useEffect(() => {
+        fetch('http://localhost:5000/signup/form', {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(res => {
+            if (res.status === 401) {
+                window.location.replace('/signup');
+            }
+        });
+    }, []);
         const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:5000/form', {
+            const response = await fetch('http://localhost:5000/signup/form', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

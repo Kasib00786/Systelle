@@ -26,21 +26,21 @@ const App=()=>{
       <Route path="/" element={<LandingPage/>}/>
       <Route path="/login" element={<Login />}/>
       <Route path="/signup" element={<Signup />}/>
-      <Route path="/form" element={<Updateform />}/>
+      <Route path="/signup/form" element={<Updateform />}/>
       <Route path="/home" element={<Homepage/>}/>
-      <Route path="/updates" element={<DailyUpdate />}/>
+      <Route path="/calendar/updates" element={<DailyUpdate />}/>
       <Route path="/calendar" element={<Calendar />}/>
-      <Route path="/profile" element={<Profile />}/>
+      <Route path="/home/profile" element={<Profile />}/>
       <Route path="/health" element={<Health/>}/>
       <Route path="/exercise" element={<Exercise/>}/>
-      <Route path="/aboutus" element={<AboutUs/>}/>
-      <Route path="/help" element={<Help/>}/>
-      <Route path="/BloodAmount" element={<BloodAmount />} />
-      <Route path="/PeriodColor" element={<PeriodColor />} />
-      <Route path="/PeriodPain" element={<PeriodPain />} />
-      <Route path="/CrampRelief" element={<CrampRelief />} />
-      <Route path="/Food" element={<Food />} />
-      <Route path="/Workout" element={<Workout />} />
+      <Route path="/home/aboutus" element={<AboutUs/>}/>
+      <Route path="/home/help" element={<Help/>}/>
+      <Route path="/health/BloodAmount" element={<BloodAmount />} />
+      <Route path="/health/PeriodColor" element={<PeriodColor />} />
+      <Route path="/health/PeriodPain" element={<PeriodPain />} />
+      <Route path="/health/CrampRelief" element={<CrampRelief />} />
+      <Route path="/health/Food" element={<Food />} />
+      <Route path="/exercise/Workout" element={<Workout />} />
     </Routes>
     </BrowserRouter>
     </>
