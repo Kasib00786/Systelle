@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/Systelle', {
+mongoose.connect('mongodb+srv://Kasib:13347890@cluster0.fprgafs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
 }).then(() => {
     console.log('MongoDB connected');
 }).catch((err) => {
@@ -170,7 +170,7 @@ app.get("/home/:subroute", isAuthenticated, (req, res) => {
 });
 app.get("/home", isAuthenticated,async (req, res) => {
     const user = await User.findById(req.session.user._id).select("name");
-    const profile = await Profile.findOne({ userId: req.session.user._id }).select("TotalDays LastsUpto");
+    const profile = await Profile.findOne({ userId: req.session.user._id })
     res.status(200).json({
             success: true,
             name: user.name,
