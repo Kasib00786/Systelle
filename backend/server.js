@@ -5,8 +5,7 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import mongoose from 'mongoose'
 import { isAuthenticated} from './authentication.js';
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
+import MongoStore from 'connect-mongo';
 
 dotenv.config();
 const app = express();
@@ -20,6 +19,7 @@ mongoose.connect(process.env.MONGODB_URI,)
 .catch((err) => {
   console.error('MongoDB connection error:', err);
 });
+
 //adding mongo session
 app.use(session({
     secret: 'your_secret_key', // Replace with a strong, unique secret
