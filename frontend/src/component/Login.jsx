@@ -11,7 +11,7 @@ const Login = () => {
         .then(res => {
             if (res.status === 401) {
                 alert("You are already logged in");
-                window.location.replace('/home');
+                navigate('/login');
             }
         });
     }, []);

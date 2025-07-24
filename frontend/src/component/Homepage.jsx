@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CircularProgress } from './CircularProgress';
 import Menu from './Menu';
+import { useNavigate } from 'react-router-dom';
 
 const isactive = 'bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-full max-h-14 my-auto';
 const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out';
@@ -9,7 +10,8 @@ const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-
 export const Homepage = () => {
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState(null);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     fetch('https://systelle.onrender.com/home', {
       method: 'GET',
@@ -17,7 +19,7 @@ export const Homepage = () => {
     })
       .then(res => {
         if (res.status === 401) {
-          window.location.replace('/login');
+          navigate('/login');
           return null;
         }
         return res.json();
