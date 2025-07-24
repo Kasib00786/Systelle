@@ -63,7 +63,7 @@ export const DailyUpdate = () => {
   }, []);
   const handleSubmit = async () => {
   try {
-    const response = await fetch('http://localhost:5000/calendar/updates', {
+    const response = await fetch('https://systelle.onrender.com/calendar/updates', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
