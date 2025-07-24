@@ -31,8 +31,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI,
-    ttl: 14 * 24 * 60 * 60 // Optional: session expiry = 14 days
+    mongoUrl: process.env.MONGODB_URI
   }),
   cookie: {
     secure: true,       // ✅ required for HTTPS (Render)
