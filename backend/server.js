@@ -4,7 +4,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import mongoose from 'mongoose';
-import MongoStore from 'connect-mongo'; // ✅ Added
+import MongoStore from 'connect-mongo'; 
 
 import { isAuthenticated } from './authentication.js';
 
@@ -19,13 +19,13 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Middleware
 app.use(cors({
-  origin: 'https://systelle.vercel.app', // your frontend URL
+  origin: 'https://systelle.vercel.app', //
   credentials: true
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ✅ Session middleware using connect-mongo
+//Session middleware using connect-mongo
 app.use(session({
   secret: process.env.SESSION_SECRET || "mySecretKey", // move secret to .env
   resave: false,
@@ -34,9 +34,9 @@ app.use(session({
     mongoUrl: process.env.MONGODB_URI
   }),
   cookie: {
-    secure: true,       // ✅ required for HTTPS (Render)
+    secure: true,       // required for HTTPS (Render)
     httpOnly: true,
-    sameSite: 'none'    // ✅ for cross-site cookie usage (Vercel + Render)
+    sameSite: 'none'    //  for cross-site cookie usage (Vercel + Render)
   }
 }));
 
