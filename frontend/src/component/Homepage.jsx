@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { differenceInDays } from 'date-fns';
+import { CircularProgress } from './CircularProgress'
 import Menu from './Menu'
 const isactive='bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-full max-h-14 my-auto'
 const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out'
@@ -30,6 +32,19 @@ useEffect(() => {
     });
 }, []);
 
+// function MyComponent({ lastDate }) {
+//   const [days, setDays] = useState(0);
+
+//   useEffect(() => {
+//     const today = new Date();
+//     const ld = new Date(lastDate);
+//     const d = differenceInDays(today, ld);
+//     setDays(Math.abs(d));
+//   }, [lastDate]);
+
+ const daysLeft = userData?.totalDays ?? 16
+  const cycleLength = userData?.cycleLength ?? 28
+  const percent = Math.min(100, Math.max(0, (daysLeft / cycleLength) * 100))
   return (
     <div className='bg-[url(/base2.jpg)] bg-cover bg-center py-10 min-h-screen'>
       {/*Navigation Bar */}
@@ -63,35 +78,14 @@ useEffect(() => {
              </Link>
            </div>
            {/* Circular Progress */}
-          <Link to='/calendar'>
-                <div className="relative w-80 h-60 mr-16 mb-8 mt-8">
-          <svg className="w-full h-full transform -rotate-90 " viewBox="0 0 100 100">
-            <circle
-              cx="50"
-              cy="50"
-              r="40"
-              stroke="#e5d4f9"
-              strokeWidth="15"
-              fill="none"
-            />
-            <circle
-              cx="50"
-              cy="50"
-              r="40"
-              stroke="#9333ea"
-              strokeWidth="10"
-              strokeLinecap="round"
-              fill="none"
-              strokeDasharray="251.2"
-              strokeDashoffset="62.8"
-              className="transition-all duration-1000"
-            />
-          </svg>
-          <div className="absolute inset-0 flex items-center justify-center text-xl font-bold text-gray-800">
-            15 days<br />to go
+           <Link to='/calendar'>
+          <div className="relative w-80 h-60 mr-16 mb-8 mt-8 flex items-center justify-center">
+            <CircularProgress value={percent} size={230} strokeWidth={25} />
+            <div className="absolute text-2xl font-bold text-gray-800">
+              {28-daysLeft} days to go
+            </div>
           </div>
-        </div>
-          </Link>
+        </Link>
         </div>
         {/*Container with risk level*/}
         <div className="max-w-[85%] mx-auto mt-6 bg-white/50 rounded-2xl shadow-lg p-6 flex flex-col md:flex-row justify-between items-center">
