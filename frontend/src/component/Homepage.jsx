@@ -5,6 +5,7 @@ const isactive='bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-f
 const inactive='hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out'
 export const Navbar = () => {
 const [open,setOpen]=useState(false);
+const [userData, setUserData] = useState(null);
 useEffect(() => {
     fetch('http://localhost:5000/home', {
         method: 'GET',
@@ -13,7 +14,19 @@ useEffect(() => {
     .then(res => {
         if (res.status === 401) {
             window.location.replace('/login');
+            return null;
         }
+        return res.json();
+    })
+    .then(data => {
+        if (data && data.success) {
+            setUserData(data);
+        } else if (data) {
+            console.log('Could not fetch user data');
+        }
+    })
+    .catch(err => {
+        console.error("Error fetching user data:", err);
     });
 }, []);
 
@@ -43,7 +56,7 @@ useEffect(() => {
         {/*Container with Daily update and progress */}
         <div className='max-w-[85%] mx-auto bg-white/50 rounded-2xl mt-6 shadow-lg flex justify-between contain-content flex-wrap'>
            <div className='mt-20'>
-           <h1 className='text-6xl pb-8 ml-28 font-bold '>Hii Krati !!</h1>
+           <h1 className='text-6xl pb-8 ml-28 font-bold '>Hii {userData?.name || '...'} !!</h1>
            <Link to='/calendar/updates'>
            <button className='bg-violet-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-violet-700 rounded-2xl w-96 h-8 ml-16 text-2xl text-white font-semibold'>
              How was your day? 😊 </button>

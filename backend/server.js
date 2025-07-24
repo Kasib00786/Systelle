@@ -131,6 +131,36 @@ app.post("/calendar/updates", async (req, res) => {
     res.status(200).json({ success: true, message: "Daily update saved" });
 });
 
+//fetching user data for profile
+app.get('/home/profile', isAuthenticated, async (req, res) => {
+    try {
+        const userId = req.session.user?._id;
+
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        const user = await User.findById(userId).select('name email');
+        const profile = await Profile.findOne({ userId });
+
+        if (!user || !profile) {
+            return res.status(404).json({ message: "User or profile not found" });
+        }
+        res.status(200).json({
+            name: user.name,
+            email: user.email,
+            dob: profile.DOB,
+            age: profile.age,
+            cycleStart: profile.LastDate,
+            cycleDuration: profile.LastsUpto
+        });
+
+    } catch (error) {
+        console.error("Error fetching profile:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+
 //managing user session
 app.get("/signup/form", isAuthenticated, (req, res) => {
     res.status(200).json({ message: `You are at ${req.params.subroute}` });
@@ -138,8 +168,16 @@ app.get("/signup/form", isAuthenticated, (req, res) => {
 app.get("/home/:subroute", isAuthenticated, (req, res) => {
     res.status(200).json({ message: `You are at ${req.params.subroute}` });
 });
-app.get("/home", isAuthenticated, (req, res) => {
-    res.status(200).json({ message: `You are at ${req.params.subroute}` });
+app.get("/home", isAuthenticated,async (req, res) => {
+    const user = await User.findById(req.session.user._id).select("name");
+    const profile = await Profile.findOne({ userId: req.session.user._id }).select("TotalDays LastsUpto");
+    res.status(200).json({
+            success: true,
+            name: user.name,
+            totalDays: profile.TotalDays,
+            lastDate: profile.LastDate,
+            message: "You are at home"
+        });
 });
 app.get('/login',(req, res) => {
     if(req.session.user) return res.status(401).json({ success: false, message: "Unauthorized" });
