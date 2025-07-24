@@ -38,7 +38,7 @@ const levels = [
 const Exercise = () => {
   const [open, setOpen] = useState(false);
   useEffect(() => {
-      fetch('http://localhost:5000/exercise', {
+      fetch('https://systelle.onrender.com/exercise', {
           method: 'GET',
           credentials: 'include'
       })

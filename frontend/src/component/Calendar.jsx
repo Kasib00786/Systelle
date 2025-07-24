@@ -47,7 +47,7 @@ export default function Calendar() {
 
   const isSelected = d => selectedDates.some(pd => isSameDay(pd, d));
   useEffect(() => {
-      fetch('http://localhost:5000/calendar', {
+      fetch('https://systelle.onrender.com/calendar', {
           method: 'GET',
           credentials: 'include'
       })

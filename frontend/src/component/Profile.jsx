@@ -9,7 +9,7 @@ const Profile = () => {
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:5000/home/profile', {
+        fetch('https://systelle.onrender.com/home/profile', {
             method: 'GET',
             credentials: 'include'
         })

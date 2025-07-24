@@ -51,7 +51,7 @@ export const DailyUpdate = () => {
     </div>
   );
   useEffect(() => {
-      fetch('http://localhost:5000/calendar/updates', {
+      fetch('https://systelle.onrender.com/calendar/updates', {
           method: 'GET',
           credentials: 'include'
       })

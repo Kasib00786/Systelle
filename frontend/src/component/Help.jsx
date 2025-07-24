@@ -8,7 +8,7 @@ const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-
 const Help = () => {
 const [open,setOpen]=useState(false);
 useEffect(() => {
-    fetch('http://localhost:5000/home/help', {
+    fetch('https://systelle.onrender.com/home/help', {
         method: 'GET',
         credentials: 'include'
     })

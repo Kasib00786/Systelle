@@ -11,7 +11,7 @@ export const Homepage = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/home', {
+    fetch('https://systelle.onrender.com/home', {
       method: 'GET',
       credentials: 'include'
     })

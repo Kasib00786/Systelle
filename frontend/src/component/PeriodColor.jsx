@@ -8,7 +8,7 @@ const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-
 export default function PeriodColor() {
   const [open, setOpen] = useState(false);
 useEffect(() => {
-            fetch('http://localhost:5000/health/PeriodColor', {
+            fetch('https://systelle.onrender.com/health/PeriodColor', {
                 method: 'GET',
                 credentials: 'include'
             })
