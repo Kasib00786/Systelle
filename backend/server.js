@@ -169,6 +169,7 @@ app.get("/home/:subroute", isAuthenticated, (req, res) => {
   res.status(200).json({ message: `You are at ${req.params.subroute}` });
 });
 app.get("/home", isAuthenticated, async (req, res) => {
+    console.log('Session data at /home:', req.session);
   const user = await User.findById(req.session.user._id).select("name");
   const profile = await Profile.findOne({ userId: req.session.user._id });
   res.status(200).json({
