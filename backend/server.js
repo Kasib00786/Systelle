@@ -1,19 +1,22 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import mongoose from 'mongoose'
 import { isAuthenticated} from './authentication.js';
 
+dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 // MongoDB Connection
-mongoose.connect('mongodb+srv://Kasib:13347890@cluster0.fprgafs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
-}).then(() => {
-    console.log('MongoDB connected');
-}).catch((err) => {
-    console.error('MongoDB connection error:', err);
+mongoose.connect(process.env.MONGODB_URI,)
+.then(() => {
+  console.log('MongoDB connected');
+})
+.catch((err) => {
+  console.error('MongoDB connection error:', err);
 });
 
 // Middleware

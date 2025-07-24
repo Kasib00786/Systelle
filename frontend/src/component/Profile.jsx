@@ -26,8 +26,6 @@ const Profile = () => {
             console.error('Error fetching user profile:', err);
         });
     }, []);
-    const total_days=userData.totalDays
-    const last_Date=userData.lastDate
     return (
         <div className='bg-[url(/base2.jpg)] bg-cover bg-center bg-fixed py-10 min-h-screen'>    
             <div className='flex justify-between max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg flex-wrap'>
