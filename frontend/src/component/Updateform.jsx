@@ -122,7 +122,7 @@ const { handleSubmit, register, formState: { errors } } = useForm();
             </label>
             <input
               type="number"
-              name="cycleLength"
+              name="LastUpto"
               {...register("LastsUpto", { required: true })}
               className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400"
               placeholder="e.g., 5"

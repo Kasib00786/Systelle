@@ -72,8 +72,8 @@ useEffect(() => {
 
       {/* Help Section */}
       <div className='max-w-4xl mx-auto mt-10 bg-white/90 p-8 rounded-xl shadow-xl backdrop-blur-md'>
-        <h1 className='text-3xl font-bold text-center text-indigo-800 mb-6'>Need Help?</h1>
-        <p className='text-gray-700 text-center mb-10'>
+        <h1 className='text-3xl font-bold text-center text-gray-700 mb-6'>Need Help?</h1>
+        <p className='text-slate-600 text-center mb-10'>
           We’re here to support you! Find answers to common questions below, or contact our team for further assistance.
         </p>
 
@@ -83,7 +83,7 @@ useEffect(() => {
             <div key={index} className='border border-indigo-200 rounded-xl overflow-hidden'>
               <button
                 onClick={() => toggleFAQ(index)}
-                className='w-full text-left px-5 py-3 font-medium bg-indigo-50 hover:bg-indigo-100 transition'
+                className='w-full text-left text-gray-700 px-5 py-3 font-medium bg-indigo-50 hover:bg-indigo-100 transition'
               >
                 {faq.question}
               </button>
@@ -98,13 +98,13 @@ useEffect(() => {
 
         {/* Contact Support */}
         <div className='mt-12 text-center'>
-          <h2 className='text-2xl font-semibold text-indigo-800 mb-3'>Still need help?</h2>
-          <p className='text-gray-600 mb-5'>
+          <h2 className='text-2xl font-semibold text-gray-700 mb-3'>Still need help?</h2>
+          <p className='text-slate-600 mb-5'>
             Reach out to our support team for personalized assistance.
           </p>
           <a
             href='mailto:support@systelle.com'
-            className='inline-block bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition'
+            className='inline-block bg-violet-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-violet-700 text-white px-6 py-3 rounded-full font-semibold'
           >
             Contact Support
           </a>
