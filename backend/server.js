@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import session from 'express-session';
+import session from 'cookie-session';
 import mongoose from 'mongoose'
 import { isAuthenticated} from './authentication.js';
 import MongoStore from 'connect-mongo';
@@ -31,25 +32,26 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Session middleware
-// app.use(session({
-//     secret: "mySecretKey",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: { secure: true,
-//         sameSite:'none',
-//         maxAge:1000*60*60*24
-//      } 
-// }));
+app.use(session({
+cookie:{
+    secure: true,
+    maxAge:60000
+       },
+store: new RedisStore(),
+secret: 'mySecretkey',
+saveUninitialized: true,
+resave: false
+}));
 
 //adding mongo session
-app.use(session({
-    secret: 'mySecretkey', 
-    store: MongoStore.create({
-        mongoUrl:process.env.MONGODB_URI 
-    }),
-    resave: false,
-    saveUninitialized: false
-}));
+// app.use(session({
+//     secret: 'mySecretkey', 
+//     store: MongoStore.create({
+//         mongoUrl:process.env.MONGODB_URI 
+//     }),
+//     resave: false,
+//     saveUninitialized: false
+// }));
 
 // Routes
 app.get("/", (req, res) => {
