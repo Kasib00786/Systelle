@@ -19,11 +19,11 @@ const Login = () => {
 
     const onSubmit = async (data) => {
     try {
-        const response = await fetch('https://systelle.onrender.com/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify(data)
+        const response = fetch('https://systelle.onrender.com/login', {
+        method: 'POST',
+        credentials: 'include', // <-- this is critical
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
         });
 
         const res = await response.json();

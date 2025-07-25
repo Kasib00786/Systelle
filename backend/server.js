@@ -43,13 +43,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // }));
 
 //adding mongo session
+app.set('trust proxy', 1);
+
 app.use(session({
-    secret: 'mySecretkey', 
-    store: MongoStore.create({
-        mongoUrl:process.env.MONGODB_URI 
-    }),
-    resave: false,
-    saveUninitialized: false
+  secret: process.env.SESSION_SECRET,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI
+  }),
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true,         // important: only over HTTPS
+    httpOnly: true,
+    sameSite: 'none',     // required for cross-origin
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
+  }
 }));
 
 // Routes
