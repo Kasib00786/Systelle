@@ -6,7 +6,7 @@ import session from 'express-session';
 import mongoose from 'mongoose'
 import { isAuthenticated} from './authentication.js';
 import MongoStore from 'connect-mongo';
-import { MemoryStore } from 'memorystore';
+import MemoryStore from 'memorystore';
 
 dotenv.config();
 const app = express();
