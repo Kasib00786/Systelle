@@ -31,26 +31,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Session middleware
-app.use(session({
-cookie:{
-    secure: true,
-    maxAge:60000
-       },
-store: new RedisStore(),
-secret: 'mySecretkey',
-saveUninitialized: true,
-resave: false
-}));
+// app.use(session({
+//     secret: "mySecretKey",
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: { secure: true,
+//         sameSite:'none',
+//         maxAge:1000*60*60*24
+//      } 
+// }));
 
 //adding mongo session
-// app.use(session({
-//     secret: 'mySecretkey', 
-//     store: MongoStore.create({
-//         mongoUrl:process.env.MONGODB_URI 
-//     }),
-//     resave: false,
-//     saveUninitialized: false
-// }));
+app.use(session({
+    secret: 'mySecretkey', 
+    store: MongoStore.create({
+        mongoUrl:process.env.MONGODB_URI 
+    }),
+    resave: false,
+    saveUninitialized: false
+}));
 
 // Routes
 app.get("/", (req, res) => {
