@@ -23,7 +23,7 @@ const LandingPage = () => {
         {/* Right: Navigation Links */}
         <div className="flex space-x-6 font-medium">
           <Link to="/home" className={inactive}>Home</Link>
-          <Link to="/aboutus" className={inactive}>About</Link>
+          <Link to="/LandingAboutUs" className={inactive}>About</Link>
           <Link
             to="/login"
             className="bg-violet-500 text-white px-6 py-2 rounded-full shadow hover:scale-105 transition"
