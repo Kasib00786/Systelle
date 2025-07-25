@@ -18,6 +18,7 @@ import PeriodColor from "./component/PeriodColor";
 import PeriodPain from "./component/PeriodPain";
 import CrampRelief from "./component/CrampRelief";
 import Food from "./component/Food";
+import LandingAboutUs from "./component/LandingAboutUs";
 import Workout from "./component/Workout";
 
 const App=()=>{
@@ -33,6 +34,14 @@ const App=()=>{
       <Route path="/home/profile" element={<Profile />}/>
       <Route path="/health" element={<Health/>}/>
       <Route path="/exercise" element={<Exercise/>}/>
+      <Route path="/aboutus" element={<AboutUs/>}/>
+      <Route path="/help" element={<Help/>}/>
+      <Route path="/BloodAmount" element={<BloodAmount />} />
+      <Route path="/PeriodColor" element={<PeriodColor />} />
+      <Route path="/PeriodPain" element={<PeriodPain />} />
+      <Route path="/CrampRelief" element={<CrampRelief />} />
+      <Route path="/Food" element={<Food />} />
+      <Route path="/LandingAboutus" element={<LandingAboutUs/>}/>
       <Route path="/home/aboutus" element={<AboutUs/>}/>
       <Route path="/home/help" element={<Help/>}/>
       <Route path="/health/BloodAmount" element={<BloodAmount />} />
