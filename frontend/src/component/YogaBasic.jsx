@@ -6,17 +6,17 @@ const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-
 const YogaBasic = () => {
   const [open, setOpen] = useState(false);
   
-  useEffect(() => {
-        fetch('https://systelle.onrender.com/exercise/Workout', {
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(res => {
-            if (res.status === 401) {
-                window.location.replace('/login');
-            }
-        });
-    }, []);
+  // useEffect(() => {
+  //       fetch('https://systelle.onrender.com/exercise/Workout', {
+  //           method: 'GET',
+  //           credentials: 'include'
+  //       })
+  //       .then(res => {
+  //           if (res.status === 401) {
+  //               window.location.replace('/login');
+  //           }
+  //       });
+  //   }, []);
   return (
     <div className='bg-[url(/base2.jpg)] bg-cover bg-center py-10 min-h-screen'>
       <div className='flex justify-between  max-w-[85%] bg-white/80 p-2 rounded-2xl mx-auto shadow-lg flex-wrap'>

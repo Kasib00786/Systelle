@@ -20,15 +20,15 @@ mongoose.connect(process.env.MONGODB_URI,)
   console.error('MongoDB connection error:', err);
 });
 
-//adding mongo session
-app.use(session({
-    secret: 'your_secret_key', // Replace with a strong, unique secret
-    store: MongoStore.create({
-        mongoUrl:process.env.MONGODB_URI // Your MongoDB connection string
-    }),
-    resave: false,
-    saveUninitialized: false
-}));
+// //adding mongo session
+// app.use(session({
+//     secret: 'your_secret_key', 
+//     store: MongoStore.create({
+//         mongoUrl:process.env.MONGODB_URI 
+//     }),
+//     resave: false,
+//     saveUninitialized: false
+// }));
 
 // Middleware
 app.use(cors({
@@ -42,8 +42,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: "mySecretKey",
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // For dev only, use true in HTTPS production
+    saveUninitialized: false,
+    cookie: { secure: true,
+        sameSite:'none',
+        maxAge:1000*60*60*24
+     } 
 }));
 
 // Routes
@@ -71,7 +74,7 @@ const DailyUpdateSchema = new mongoose.Schema({
     userId: mongoose.Schema.Types.ObjectId,
     date:{
         type: Date,
-        default: Date.now, // ⬅️ Automatically sets current date/time
+        default: Date.now, 
     },
     flowing:String,
     spotting:String,
