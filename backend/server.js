@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-import session from 'cookie-session';
 import mongoose from 'mongoose'
 import { isAuthenticated} from './authentication.js';
 import MongoStore from 'connect-mongo';
