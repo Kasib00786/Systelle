@@ -6,6 +6,7 @@ import session from 'express-session';
 import mongoose from 'mongoose'
 import { isAuthenticated} from './authentication.js';
 import MongoStore from 'connect-mongo';
+import { MemoryStore } from 'memorystore';
 
 dotenv.config();
 const app = express();
@@ -32,15 +33,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Session middleware
+// app.use(session({
+//     secret: "mySecretKey",
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: { secure: true,
+//         sameSite:'none',
+//         maxAge:1000*60*60*24
+//      } 
+// }));
+
 app.use(session({
-    secret: "mySecretKey",
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
     resave: false,
-    saveUninitialized: false,
-    cookie: { secure: true,
-        sameSite:'none',
-        maxAge:1000*60*60*24
-     } 
-}));
+    secret: 'keyboard cat'
+}))
+
 
 // //adding mongo session
 // app.use(session({
