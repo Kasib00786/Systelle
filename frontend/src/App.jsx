@@ -19,7 +19,10 @@ import PeriodPain from "./component/PeriodPain";
 import CrampRelief from "./component/CrampRelief";
 import Food from "./component/Food";
 import LandingAboutUs from "./component/LandingAboutUs";
-import Workout from "./component/Workout";
+import YogaBasic from "./component/exercises/YogaBasic";
+import Workout from "./component/exercises/Workout";
+import Running from "./component/exercises/Running";
+import LightCardio from "./component/exercises/LightCardio";
 
 const App=()=>{
   return <><BrowserRouter>
@@ -49,7 +52,10 @@ const App=()=>{
       <Route path="/health/PeriodPain" element={<PeriodPain />} />
       <Route path="/health/CrampRelief" element={<CrampRelief />} />
       <Route path="/health/Food" element={<Food />} />
+      <Route path="/exercise/YogaBasic" element={<YogaBasic />} />
+      <Route path="/exercise/Running" element={<Running />} />
       <Route path="/exercise/Workout" element={<Workout />} />
+      <Route path="/exercise/LightCardio" element={<LightCardio />} />
     </Routes>
     </BrowserRouter>
     </>

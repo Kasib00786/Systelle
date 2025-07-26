@@ -94,7 +94,7 @@ const Exercise = () => {
                   const isBeginnerDay1 = !day.locked && level.title === "Beginner Level Exercise" && day.day === "DAY 1";
 
                   return isBeginnerDay1 ? (
-                    <Link to="/exercise/workout" key={idx}>
+                    <Link to="/exercise/Workout" key={idx}>
                       <div className="flex flex-col items-center justify-center px-3 py-3 border rounded-full w-full transform transition duration-300 hover:-translate-y-2 hover:shadow-lg cursor-pointer bg-white">
                         <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
                           {day.day}

@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
-import Menu from './Menu';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out';
 
-const AboutUs = () => {
-  const [open, setOpen] = useState(false);
+const LandingAboutUs = () => {
 
   return (
     <div className='bg-[url(/base2.jpg)] bg-cover bg-center bg-fixed min-h-screen flex items-center justify-center py-10'>    
@@ -24,4 +21,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default LandingAboutUs;

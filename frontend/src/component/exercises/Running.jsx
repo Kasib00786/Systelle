@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState,useEffect } from 'react'
-import Menu from './Menu'
+import Menu from '../Menu'
 import { Link } from 'react-router-dom'
 const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out'
 const Running = () => {
@@ -45,7 +45,7 @@ const Running = () => {
     },
   ];
   useEffect(() => {
-        fetch('https://systelle.onrender.com/exercise/Workout', {
+        fetch('https://systelle.onrender.com/exercise/Running', {
             method: 'GET',
             credentials: 'include'
         })
