@@ -10,6 +10,8 @@ const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-
 export const Homepage = () => {
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [riskPercent, setRiskPercent] = useState(null);
+  const [dailyUpdateAvailable, setDailyUpdateAvailable] = useState(true);
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -36,6 +38,48 @@ export const Homepage = () => {
         console.error("Error fetching user data:", err);
       });
   }, []);
+
+
+  // Fetch latest daily update and send to model
+  useEffect(() => {
+    if (!userData) return;
+
+    fetch("http://localhost:5000/pcos/latest-data", {
+      method: "GET",
+      credentials: "include"
+    })
+      .then(res => {
+        if (res.status === 404) {
+          setDailyUpdateAvailable(false);
+          return null;
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (!data) return;
+        axios.post('http://127.0.0.1:5000/predict', {
+          How_was_your_flowing: data.flowing,
+          Any_Spotting_or_irregular_spotting: data.spotting,
+          What_is_your_pain_level: data.pain_level,
+          How_was_your_sleep_quality: data.sleep_quality,
+          How_you_feel_about_your_skin: data.skin,
+          How_you_feel_about_your_hair: data.hair,
+          Your_cycle_last_upto: data.lastsUpto || 5,
+          Number_of_days_of_menstrual_cycle: userData.totalDays || 28
+        }, { withCredentials: true })
+          .then(res => {
+            setRiskPercent(Math.round(res.data.pcod_pcos_chance_percent));
+          })
+          .catch(err => {
+            console.error("Prediction failed:", err);
+          });
+      })
+      .catch(err => {
+        console.error("Failed to fetch daily update:", err);
+        setDailyUpdateAvailable(false);
+      });
+  }, [userData]);
+
 
  if (!userData || !userData.totalDays || !userData.lastDate) {
   return (
@@ -111,17 +155,23 @@ function getDaysLeftInCycle(lastDate, totalDays) {
         </Link>
       </div>
 
-      {/* Container with risk level */}
+      {/* Risk Result */}
       <div className="max-w-[85%] mx-auto mt-6 bg-white/50 rounded-2xl shadow-lg p-6 flex flex-col md:flex-row justify-between items-center">
-        <div>
-          <p className="text-4xl font-bold ml-16 mb-8 mt-8">You have no risk of PCOD/PCOS 🎉</p>
-        </div>
-        <div className="relative h-4 ml-8 mr-8 bg-white w-5/6 rounded-xl overflow-hidden">
-          <div
-            className="absolute h-2 m-1 bg-green-500 rounded-xl"
-            style={{ width: "25%" }}
-          />
-        </div>
+        {!dailyUpdateAvailable ? (
+          <p className="text-2xl font-bold text-red-600">Please submit today's update to view your PCOD/PCOS risk</p>
+        ) : riskPercent !== null ? (
+          <>
+            <p className="text-4xl font-bold ml-16 mb-8 mt-8">Your PCOD/PCOS risk is {riskPercent}%</p>
+            <div className="relative h-4 ml-8 mr-8 bg-white w-5/6 rounded-xl overflow-hidden">
+              <div
+                className={`absolute h-2 m-1 ${riskPercent < 35 ? 'bg-green-500' : riskPercent < 70 ? 'bg-yellow-500' : 'bg-red-500'} rounded-xl`}
+                style={{ width: `${riskPercent}%` }}
+              />
+            </div>
+          </>
+        ) : (
+          <p className="text-2xl font-bold text-gray-600">Loading risk score...</p>
+        )}
       </div>
     </div>
   );
