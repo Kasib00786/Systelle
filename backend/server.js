@@ -192,7 +192,7 @@ app.get('/home/profile', isAuthenticated, async (req, res) => {
 // Latest Daily Update for fallback
 app.get('/pcos/latest-data', isAuthenticated, async (req, res) => {
   try {
-    const update = await DailyUpdate.findOne({ userId: req.session.user._id }).sort({ date: -1 });
+    const update = await DailyUpdate.findOne({ userId: req.session.user._id }).sort({ date });
     if (!update) {
       return res.status(404).json({ success: false, message: "No daily updates found" });
     }
