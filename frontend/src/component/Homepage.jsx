@@ -44,7 +44,7 @@ export const Homepage = () => {
   useEffect(() => {
     if (!userData) return;
 
-    fetch("http://systelle.onrender.com/pcos/latest-data", {
+    fetch("http://localhost:5000/pcos/latest-data", {
       method: "GET",
       credentials: "include"
     })
