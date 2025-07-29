@@ -8,7 +8,7 @@ model = joblib.load("pcod_pcos_predictor_model.pkl")
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
+CORS(app, supports_credentials=True, origins=["https://systelle.vercel.app"])
 
 @app.route('/predict', methods=['POST'])
 def predict():
