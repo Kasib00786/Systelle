@@ -83,8 +83,8 @@ export const Homepage = () => {
 
  if (!userData || !userData.totalDays || !userData.lastDate) {
   return (
-    <div className="text-center mt-10 text-xl font-semibold text-red-600">
-      Missing cycle data. Please update profile.
+    <div className="mx-auto text-xl font-semibold text-red-600 my-auto">
+      Loading profile.....
     </div>
   );
 }
