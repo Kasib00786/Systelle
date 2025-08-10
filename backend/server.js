@@ -153,31 +153,20 @@ app.post("/calendar/updates", async (req, res) => {
 
 //fetching user data for profile
 app.get('/home/profile', isAuthenticated, async (req, res) => {
-    try {
-        const userId = req.session.user?._id;
-
-        if (!userId) {
-            return res.status(401).json({ message: "Unauthorized" });
-        }
-        const user = await User.findById(userId).select('name email');
-        const profile = await Profile.findOne({ userId });
-
-        if (!user || !profile) {
-            return res.status(404).json({ message: "User or profile not found" });
-        }
-        res.status(200).json({
-            name: user.name,
-            email: user.email,
-            dob: profile.DOB,
-            age: profile.age,
-            cycleStart: profile.LastDate,
-            cycleDuration: profile.LastsUpto
-        });
-
-    } catch (error) {
-        console.error("Error fetching profile:", error);
-        res.status(500).json({ message: "Server error" });
-    }
+  const userId = req.session.user?._id;
+  const user = await User.findById(userId).select('name email');
+  const profile = await Profile.findOne({ userId });
+  if (!user || !profile) {
+    return res.status(404).json({ message: "User or profile not found" });
+  }
+  res.status(200).json({
+    name: user.name,
+    email: user.email,
+    dob: profile.DOB,
+    age: profile.age,
+    cycleStart: profile.LastDate,
+    cycleDuration: profile.LastsUpto
+  });
 });
 
 // Latest Daily Update for fallback
@@ -231,12 +220,6 @@ app.post('/pcos/predict', isAuthenticated, async (req, res) => {
 });
 
 //managing user session
-app.get("/signup/form", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: `You are at ${req.params.subroute}` });
-});
-app.get("/home/:subroute", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: `You are at ${req.params.subroute}` });
-});
 app.get("/home", isAuthenticated,async (req, res) => {
     const user = await User.findById(req.session.user._id).select("name");
     const profile = await Profile.findOne({ userId: req.session.user._id })
@@ -252,23 +235,16 @@ app.get('/login',(req, res) => {
     if(req.session.user) return res.status(401).json({ success: false, message: "Unauthorized" });
     res.status(200).json({ message: "Login page access granted" });
 });
-app.get("/calendar", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: `You are at calendar` });
-});
-app.get("/calendar/:subroute", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: `You are at ${req.params.subroute}` });
-});
-app.get("/health", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: `You are at health` });
-});
-app.get("/health/:subroute", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: `You are at ${req.params.subroute}` });
-});
-app.get("/exercise", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: `You are at exercise` });
-});
-app.get("/exercise/:subroute", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: `You are at ${req.params.subroute}` });
+const subroutes = [
+  "/signup/form", "/home/:subroute",
+  "/calendar", "/calendar/:subroute",
+  "/health", "/health/:subroute",
+  "/exercise", "/exercise/:subroute"
+];
+subroutes.forEach(route => {
+  app.get(route, isAuthenticated, (req, res) => {
+    res.status(200).json({ message: `You are at ${req.params.subroute || "this route"}` });
+  });
 });
 
 // Start server
