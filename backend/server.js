@@ -13,7 +13,10 @@ const app = express();
 const PORT = process.env.PORT;
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI,)
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
 .then(() => {
   console.log('MongoDB connected');
 })
@@ -26,8 +29,7 @@ mongoose.connect(process.env.MONGODB_URI,)
 // Middleware
 app.use(cors({
   origin: 'https://systelle.vercel.app',
-  credentials: true,
-  sameSite: "none"
+  credentials: true
 }));
 app.options('*', cors());
 app.use(bodyParser.json());
@@ -45,7 +47,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,         // important: only over HTTPS
+    secure: process.env.NODE_ENV === 'production',         // important: only over HTTPS
     httpOnly: true,
     sameSite: 'none',     // required for cross-origin
     maxAge: 1000 * 60 * 60 * 24 // 1 day

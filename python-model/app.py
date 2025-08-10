@@ -42,6 +42,5 @@ def predict():
     return jsonify({
         "pcod_pcos_chance_percent": round(prediction, 2)
     })
-
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
