@@ -23,7 +23,10 @@ const Login = () => {
         method: 'POST',
         credentials: 'include', // <-- this is critical
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({
+            email: data.email,
+            password: data.password
+        })
         });
 
         const res = await response.json();

@@ -33,16 +33,6 @@ app.options('*', cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Session middleware
-// app.use(session({
-//     secret: "mySecretKey",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: { secure: true,
-//         sameSite:'none',
-//         maxAge:1000*60*60*24
-//      } 
-// }));
 
 //adding mongo session
 app.set('trust proxy', 1);
