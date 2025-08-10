@@ -237,16 +237,18 @@ app.get('/login',(req, res) => {
     if(req.session.user) return res.status(401).json({ success: false, message: "Unauthorized" });
     res.status(200).json({ message: "Login page access granted" });
 });
-const subroutes = [
-  "/signup/form", "/home/:subroute",
-  "/calendar", "/calendar/:subroute",
-  "/health", "/health/:subroute",
-  "/exercise", "/exercise/:subroute"
-];
-subroutes.forEach(route => {
-  app.get(route, isAuthenticated, (req, res) => {
-    res.status(200).json({ message: `You are at ${req.params.subroute || "this route"}` });
-  });
+// Static routes
+app.get('/signup/form', isAuthenticated, (req, res) => {
+  res.status(200).json({ message: 'You are at signup form' });
+});
+
+app.get(['/home', '/calendar', '/health', '/exercise'], isAuthenticated, (req, res) => {
+  res.status(200).json({ message: `You are at ${req.path}` });
+});
+
+// Param routes
+app.get(['/home/:subroute', '/calendar/:subroute', '/health/:subroute', '/exercise/:subroute'], isAuthenticated, (req, res) => {
+  res.status(200).json({ message: `You are at ${req.params.subroute}` });
 });
 
 // Start server
