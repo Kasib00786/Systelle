@@ -207,7 +207,7 @@ app.post('/pcos/predict', isAuthenticated, async (req, res) => {
       Number_of_days_of_menstrual_cycle: profile.TotalDays || 28
     };
 
-    const flaskRes = await fetch('http://127.0.0.1:5000/predict', {
+    const flaskRes = await fetch('https://pyhtonmodel.onrender.com/predict', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(predictionInput)
