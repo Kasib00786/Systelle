@@ -172,54 +172,54 @@ app.get('/home/profile', isAuthenticated, async (req, res) => {
 });
 
 // Latest Daily Update for fallback
-app.get('/pcos/latest-data', isAuthenticated, async (req, res) => {
-  try {
-    const update = await DailyUpdate.findOne({ userId: req.session.user._id }).sort({ date:-1 });
-    if (!update) {
-      return res.status(404).json({ success: false, message: "No daily updates found" });
-    }
-    res.status(200).json(update);
-  } catch (err) {
-    console.error("Error fetching latest daily update:", err);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
+// app.get('/pcos/latest-data', isAuthenticated, async (req, res) => {
+//   try {
+//     const update = await DailyUpdate.findOne({ userId: req.session.user._id }).sort({ date:-1 });
+//     if (!update) {
+//       return res.status(404).json({ success: false, message: "No daily updates found" });
+//     }
+//     res.status(200).json(update);
+//   } catch (err) {
+//     console.error("Error fetching latest daily update:", err);
+//     res.status(500).json({ success: false, message: "Server error" });
+//   }
+// });
 
-// Prediction
-app.post('/pcos/predict', isAuthenticated, async (req, res) => {
-  try {
-    const userId = req.session.user._id;
-    const latestUpdate = await DailyUpdate.findOne({ userId }).sort({ date: -1 });
-    const profile = await Profile.findOne({ userId });
+// // Prediction
+// app.post('/pcos/predict', isAuthenticated, async (req, res) => {
+//   try {
+//     const userId = req.session.user._id;
+//     const latestUpdate = await DailyUpdate.findOne({ userId }).sort({ date: -1 });
+//     const profile = await Profile.findOne({ userId });
 
-    if (!latestUpdate || !profile) {
-      return res.status(404).json({ error: "Insufficient data for prediction" });
-    }
+//     if (!latestUpdate || !profile) {
+//       return res.status(404).json({ error: "Insufficient data for prediction" });
+//     }
 
-    const predictionInput = {
-      How_was_your_flowing: latestUpdate.flowing,
-      Any_Spotting_or_irregular_spotting: latestUpdate.spotting,
-      What_is_your_pain_level: latestUpdate.pain_level,
-      How_was_your_sleep_quality: latestUpdate.sleep_quality,
-      How_you_feel_about_your_skin: latestUpdate.skin,
-      How_you_feel_about_your_hair: latestUpdate.hair,
-      Your_cycle_last_upto: profile.LastsUpto || 5,
-      Number_of_days_of_menstrual_cycle: profile.TotalDays || 28
-    };
+//     const predictionInput = {
+//       How_was_your_flowing: latestUpdate.flowing,
+//       Any_Spotting_or_irregular_spotting: latestUpdate.spotting,
+//       What_is_your_pain_level: latestUpdate.pain_level,
+//       How_was_your_sleep_quality: latestUpdate.sleep_quality,
+//       How_you_feel_about_your_skin: latestUpdate.skin,
+//       How_you_feel_about_your_hair: latestUpdate.hair,
+//       Your_cycle_last_upto: profile.LastsUpto || 5,
+//       Number_of_days_of_menstrual_cycle: profile.TotalDays || 28
+//     };
 
-    const flaskRes = await fetch('https://pyhtonmodel.onrender.com/predict', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(predictionInput)
-    });
+//     const flaskRes = await fetch('https://pyhtonmodel.onrender.com/predict', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(predictionInput)
+//     });
 
-    const data = await flaskRes.json();
-    res.status(200).json(data);
-  } catch (error) {
-    console.error('Error calling Flask model:', error);
-    res.status(500).json({ error: 'Model server not responding' });
-  }
-});
+//     const data = await flaskRes.json();
+//     res.status(200).json(data);
+//   } catch (error) {
+//     console.error('Error calling Flask model:', error);
+//     res.status(500).json({ error: 'Model server not responding' });
+//   }
+// });
 
 //managing user session
 app.get("/home", isAuthenticated,async (req, res) => {
@@ -247,9 +247,9 @@ app.get(['/calendar', '/health', '/exercise'], isAuthenticated, (req, res) => {
 });
 
 // Param routes
-// app.get(['/home/:subroute', '/calendar/:subroute', '/health/:subroute', '/exercise/:subroute'], isAuthenticated, (req, res) => {
-//   res.status(200).json({ message: `You are at ${req.params.subroute}` });
-// });
+app.get(['/home/:subroute', '/calendar/:subroute', '/health/:subroute', '/exercise/:subroute'], isAuthenticated, (req, res) => {
+  res.status(200).json({ message: `You are at ${req.params.subroute}` });
+});
 
 // Start server
 app.listen(PORT, () => {
