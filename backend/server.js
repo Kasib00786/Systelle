@@ -242,7 +242,7 @@ app.get('/signup/form', isAuthenticated, (req, res) => {
   res.status(200).json({ message: 'You are at signup form' });
 });
 
-app.get(['/home', '/calendar', '/health', '/exercise'], isAuthenticated, (req, res) => {
+app.get(['/calendar', '/health', '/exercise'], isAuthenticated, (req, res) => {
   res.status(200).json({ message: `You are at ${req.path}` });
 });
 
