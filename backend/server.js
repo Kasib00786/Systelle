@@ -247,9 +247,9 @@ app.get(['/calendar', '/health', '/exercise'], isAuthenticated, (req, res) => {
 });
 
 // Param routes
-app.get(['/home/:subroute', '/calendar/:subroute', '/health/:subroute', '/exercise/:subroute'], isAuthenticated, (req, res) => {
-  res.status(200).json({ message: `You are at ${req.params.subroute}` });
-});
+// app.get(['/home/:subroute', '/calendar/:subroute', '/health/:subroute', '/exercise/:subroute'], isAuthenticated, (req, res) => {
+//   res.status(200).json({ message: `You are at ${req.params.subroute}` });
+// });
 
 // Start server
 app.listen(PORT, () => {
