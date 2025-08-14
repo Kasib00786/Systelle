@@ -26,7 +26,7 @@ app.use(cors({
 }));
 app.options('*', cors());
 
-// In Express 5, body-parser is built-in
+// Express 5 built-in body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -79,7 +79,9 @@ const User = mongoose.model('User', UserSchema);
 const Profile = mongoose.model('Profile', ProfileSchema);
 const DailyUpdate = mongoose.model('DailyUpdate', DailyUpdateSchema);
 
-// Routes
+// ------------------ ROUTES ------------------
+
+// Root
 app.get(/^\/$/, (_, res) => res.send("Hello server"));
 
 // Login
@@ -236,21 +238,23 @@ app.get(/^\/home\/?$/, isAuthenticated, async (req, res, next) => {
   }
 });
 
+// Login page
 app.get(/^\/login\/?$/, (req, res) => {
   if (req.session.user) return res.status(401).json({ success: false, message: "Unauthorized" });
   res.status(200).json({ message: "Login page access granted" });
 });
 
-// Static routes with wildcard for subpages
+// Signup form
 app.get(/^\/signup\/form\/?$/, isAuthenticated, (_, res) => {
   res.status(200).json({ message: 'You are at signup form' });
 });
 
+// Calendar, Health, Exercise base pages
 app.get(/^\/(calendar|health|exercise)(\/.*)?$/, isAuthenticated, (req, res) => {
   res.status(200).json({ message: `You are at ${req.path}` });
 });
 
-// Param routes
+// Param routes for home/calendar/health/exercise
 app.get(/^\/(home|calendar|health|exercise)\/([^\/]+)\/?$/, isAuthenticated, (req, res) => {
   res.status(200).json({ message: `You are at ${req.params[1]}` });
 });
