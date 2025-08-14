@@ -10,7 +10,7 @@ import MongoStore from 'connect-mongo';
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT 
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, {
@@ -55,7 +55,7 @@ app.use(session({
 }));
 
 // Routes
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
     res.send("Hello server");
 });
 
@@ -238,7 +238,7 @@ app.get('/login',(req, res) => {
     res.status(200).json({ message: "Login page access granted" });
 });
 // Static routes
-app.get('/signup/form', isAuthenticated, (req, res) => {
+app.get('/signup/form', isAuthenticated, (_, res) => {
   res.status(200).json({ message: 'You are at signup form' });
 });
 
