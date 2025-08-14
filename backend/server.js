@@ -1,30 +1,23 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import session from 'express-session';
 import mongoose from 'mongoose';
 import fetch from 'node-fetch';
-import { isAuthenticated} from './authentication.js';
 import MongoStore from 'connect-mongo';
+import { isAuthenticated } from './authentication.js';
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT 
+const PORT = process.env.PORT;
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => {
-  console.log('MongoDB connected');
-})
-.catch((err) => {
-  console.error('MongoDB connection error:', err);
-});
-
-
+.then(() => console.log('MongoDB connected'))
+.catch((err) => console.error('MongoDB connection error:', err));
 
 // Middleware
 app.use(cors({
@@ -32,13 +25,13 @@ app.use(cors({
   credentials: true
 }));
 app.options('*', cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
+// In Express 5, body-parser is built-in
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-//adding mongo session
+// Session setup
 app.set('trust proxy', 1);
-
 app.use(session({
   secret: process.env.SESSION_SECRET,
   store: MongoStore.create({
@@ -47,146 +40,152 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',         // important: only over HTTPS
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    sameSite: 'none',     // required for cross-origin
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
+    sameSite: 'none',
+    maxAge: 1000 * 60 * 60 * 24
   }
 }));
 
-// Routes
-app.get("/", (_, res) => {
-    res.send("Hello server");
-});
-
-// Mongoose Schemas
+// Schemas
 const UserSchema = new mongoose.Schema({
-    name: String,
-    email: { type: String, unique: true },
-    password: String
+  name: String,
+  email: { type: String, unique: true },
+  password: String
 });
-
 const ProfileSchema = new mongoose.Schema({
-    userId: mongoose.Schema.Types.ObjectId,
-    DOB: String,
-    age: Number,
-    TotalDays: Number,
-    LastDate: String,
-    LastsUpto: Number
+  userId: mongoose.Schema.Types.ObjectId,
+  DOB: String,
+  age: Number,
+  TotalDays: Number,
+  LastDate: String,
+  LastsUpto: Number
 });
-
 const DailyUpdateSchema = new mongoose.Schema({
-    userId: mongoose.Schema.Types.ObjectId,
-    date:{
-        type: Date,
-        default: Date.now, 
-    },
-    flowing:String,
-    spotting:String,
-    feelings:String,
-    pain_level:String,
-    sleep_quality:String,
-    energy:String, 
-    mind:String, 
-    skin:String, 
-    hair:String
+  userId: mongoose.Schema.Types.ObjectId,
+  date: { type: Date, default: Date.now },
+  flowing: String,
+  spotting: String,
+  feelings: String,
+  pain_level: String,
+  sleep_quality: String,
+  energy: String,
+  mind: String,
+  skin: String,
+  hair: String
 });
 
 const User = mongoose.model('User', UserSchema);
 const Profile = mongoose.model('Profile', ProfileSchema);
 const DailyUpdate = mongoose.model('DailyUpdate', DailyUpdateSchema);
 
-// Login POST route for actual login
-app.post("/login",async (req, res) => {
+// Routes
+app.get(/^\/$/, (_, res) => res.send("Hello server"));
+
+// Login
+app.post(/^\/login\/?$/, async (req, res, next) => {
+  try {
     const { email, password } = req.body;
     const user = await User.findOne({ email, password });
-
     if (user) {
-        req.session.user = { email, _id: user._id };
-        return res.status(200).json({ success: true, redirectUrl: '/home' });
+      req.session.user = { email, _id: user._id };
+      return res.status(200).json({ success: true, redirectUrl: '/home' });
     }
-
-    return res.status(401).json({ success: false, message: 'Invalid credentials' });
-});
-
-// Logout route
-app.post("/logout", (req, res) => {
-    req.session.destroy((err) => {
-        if (err) return res.status(500).json({ message: "Logout failed" });
-        res.clearCookie('connect.sid');
-        res.status(200).json({ message: "Logged out successfully" });
-    });
-});
-
-// Signup route
-app.post("/signup", async (req, res) => {
-    const { name, email, password } = req.body;
-    try {
-        const newUser = new User({ name, email, password });
-        await newUser.save();
-        req.session.user = { email, _id: newUser._id };
-        res.status(200).json({ success: true, redirectUrl: '/signup/form' });
-    } catch (error) {
-        res.status(400).json({ success: false, message: 'Signup failed', error });
-    }
-});
-
-// Form route
-app.post("/signup/form", isAuthenticated, async (req, res) => {
-    const { DOB, age, TotalDays, LastDate, LastsUpto } = req.body;
-    const profile = new Profile({
-        userId: req.session.user._id,
-        DOB, age, TotalDays, LastDate, LastsUpto
-    });
-    await profile.save();
-    res.status(200).json({ success: true, redirectUrl: '/home' });
-});
-
-// Daily update route
-app.post("/calendar/updates", async (req, res) => {
-    const { flowing, spotting, feelings, pain_level, sleep_quality, energy, mind, skin, hair } = req.body;
-    const update = new DailyUpdate({
-        userId: req.session.user._id,
-        flowing, spotting, feelings, pain_level,sleep_quality, energy, mind, skin, hair
-    });
-    await update.save();
-    res.status(200).json({ success: true, message: "Daily update saved" });
-});
-
-//fetching user data for profile
-app.get('/home/profile', isAuthenticated, async (req, res) => {
-  const userId = req.session.user?._id;
-  const user = await User.findById(userId).select('name email');
-  const profile = await Profile.findOne({ userId });
-  if (!user || !profile) {
-    return res.status(404).json({ message: "User or profile not found" });
+    res.status(401).json({ success: false, message: 'Invalid credentials' });
+  } catch (err) {
+    next(err);
   }
-  res.status(200).json({
-    name: user.name,
-    email: user.email,
-    dob: profile.DOB,
-    age: profile.age,
-    cycleStart: profile.LastDate,
-    cycleDuration: profile.LastsUpto
+});
+
+// Logout
+app.post(/^\/logout\/?$/, (req, res, next) => {
+  req.session.destroy((err) => {
+    if (err) return next(err);
+    res.clearCookie('connect.sid');
+    res.status(200).json({ message: "Logged out successfully" });
   });
 });
 
-// Latest Daily Update for fallback
-app.get('/pcos/latest-data', isAuthenticated, async (req, res) => {
+// Signup
+app.post(/^\/signup\/?$/, async (req, res, next) => {
   try {
-    const update = await DailyUpdate.findOne({ userId: req.session.user._id }).sort({ date:-1 });
+    const { name, email, password } = req.body;
+    const newUser = new User({ name, email, password });
+    await newUser.save();
+    req.session.user = { email, _id: newUser._id };
+    res.status(200).json({ success: true, redirectUrl: '/signup/form' });
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Signup failed', error });
+  }
+});
+
+// Signup form
+app.post(/^\/signup\/form\/?$/, isAuthenticated, async (req, res, next) => {
+  try {
+    const { DOB, age, TotalDays, LastDate, LastsUpto } = req.body;
+    const profile = new Profile({
+      userId: req.session.user._id,
+      DOB, age, TotalDays, LastDate, LastsUpto
+    });
+    await profile.save();
+    res.status(200).json({ success: true, redirectUrl: '/home' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Daily update
+app.post(/^\/calendar\/updates\/?$/, isAuthenticated, async (req, res, next) => {
+  try {
+    const { flowing, spotting, feelings, pain_level, sleep_quality, energy, mind, skin, hair } = req.body;
+    const update = new DailyUpdate({
+      userId: req.session.user._id,
+      flowing, spotting, feelings, pain_level, sleep_quality, energy, mind, skin, hair
+    });
+    await update.save();
+    res.status(200).json({ success: true, message: "Daily update saved" });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Profile
+app.get(/^\/home\/profile\/?$/, isAuthenticated, async (req, res, next) => {
+  try {
+    const userId = req.session.user?._id;
+    const user = await User.findById(userId).select('name email');
+    const profile = await Profile.findOne({ userId });
+    if (!user || !profile) {
+      return res.status(404).json({ message: "User or profile not found" });
+    }
+    res.status(200).json({
+      name: user.name,
+      email: user.email,
+      dob: profile.DOB,
+      age: profile.age,
+      cycleStart: profile.LastDate,
+      cycleDuration: profile.LastsUpto
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Latest daily update
+app.get(/^\/pcos\/latest-data\/?$/, isAuthenticated, async (req, res, next) => {
+  try {
+    const update = await DailyUpdate.findOne({ userId: req.session.user._id }).sort({ date: -1 });
     if (!update) {
       return res.status(404).json({ success: false, message: "No daily updates found" });
     }
     res.status(200).json(update);
   } catch (err) {
-    console.error("Error fetching latest daily update:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    next(err);
   }
 });
 
 // Prediction
-app.post('/pcos/predict', isAuthenticated, async (req, res) => {
+app.post(/^\/pcos\/predict\/?$/, isAuthenticated, async (req, res, next) => {
   try {
     const userId = req.session.user._id;
     const latestUpdate = await DailyUpdate.findOne({ userId }).sort({ date: -1 });
@@ -216,39 +215,50 @@ app.post('/pcos/predict', isAuthenticated, async (req, res) => {
     const data = await flaskRes.json();
     res.status(200).json(data);
   } catch (error) {
-    console.error('Error calling Flask model:', error);
-    res.status(500).json({ error: 'Model server not responding' });
+    next(error);
   }
 });
 
-//managing user session
-app.get("/home", isAuthenticated,async (req, res) => {
+// Home
+app.get(/^\/home\/?$/, isAuthenticated, async (req, res, next) => {
+  try {
     const user = await User.findById(req.session.user._id).select("name");
-    const profile = await Profile.findOne({ userId: req.session.user._id })
+    const profile = await Profile.findOne({ userId: req.session.user._id });
     res.status(200).json({
-            success: true,
-            name: user.name,
-            totalDays: profile.TotalDays,
-            lastDate: profile.LastDate,
-            message: "You are at home"
-        });
+      success: true,
+      name: user.name,
+      totalDays: profile.TotalDays,
+      lastDate: profile.LastDate,
+      message: "You are at home"
+    });
+  } catch (err) {
+    next(err);
+  }
 });
-app.get('/login',(req, res) => {
-    if(req.session.user) return res.status(401).json({ success: false, message: "Unauthorized" });
-    res.status(200).json({ message: "Login page access granted" });
+
+app.get(/^\/login\/?$/, (req, res) => {
+  if (req.session.user) return res.status(401).json({ success: false, message: "Unauthorized" });
+  res.status(200).json({ message: "Login page access granted" });
 });
-// Static routes
-app.get('/signup/form', isAuthenticated, (_, res) => {
+
+// Static routes with wildcard for subpages
+app.get(/^\/signup\/form\/?$/, isAuthenticated, (_, res) => {
   res.status(200).json({ message: 'You are at signup form' });
 });
 
-app.get(['/calendar', '/health', '/exercise'], isAuthenticated, (req, res) => {
+app.get(/^\/(calendar|health|exercise)(\/.*)?$/, isAuthenticated, (req, res) => {
   res.status(200).json({ message: `You are at ${req.path}` });
 });
 
 // Param routes
-app.get(['/home/:subroute', '/calendar/:subroute', '/health/:subroute', '/exercise/:subroute'], isAuthenticated, (req, res) => {
-  res.status(200).json({ message: `You are at ${req.params.subroute}` });
+app.get(/^\/(home|calendar|health|exercise)\/([^\/]+)\/?$/, isAuthenticated, (req, res) => {
+  res.status(200).json({ message: `You are at ${req.params[1]}` });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack || err);
+  res.status(500).json({ success: false, message: "Internal server error" });
 });
 
 // Start server
