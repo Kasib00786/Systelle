@@ -46,7 +46,7 @@ const Running = () => {
     },
   ];
   useEffect(() => {
-        fetch('http://localhost:5000/exercise/Workout', {
+        fetch('https://systelle.onrender.com/exercise/Workout', {
             method: 'GET',
             credentials: 'include'
         })

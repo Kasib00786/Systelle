@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 export default function Updateform() {
 const { handleSubmit, register, formState: { errors } } = useForm();
     useEffect(() => {
-        fetch('http://localhost:5000/signup/form', {
+        fetch('https://systelle.onrender.com/signup/form', {
             method: 'GET',
             credentials: 'include'
         })
@@ -17,7 +17,7 @@ const { handleSubmit, register, formState: { errors } } = useForm();
     }, []);
         const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:5000/signup/form', {
+            const response = await fetch('https://systelle.onrender.com/signup/form', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

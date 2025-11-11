@@ -21,7 +21,7 @@ const Navbar = () => {
 
   // ✅ Fetch user details from backend
   useEffect(() => {
-    fetch("http://localhost:5000/home/profile", {
+    fetch("https://systelle.onrender.com/home/profile", {
       method: "GET",
       credentials: "include",
     })
@@ -39,7 +39,7 @@ const Navbar = () => {
   // ✅ Logout Function
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:5000/logout", {
+      const response = await fetch("https://systelle.onrender.com/logout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

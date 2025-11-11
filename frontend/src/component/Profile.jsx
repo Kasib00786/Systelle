@@ -15,7 +15,7 @@ const Profile = () => {
 
   // ✅ Fetch user data from backend
   useEffect(() => {
-    fetch("http://localhost:5000/home/profile", {
+    fetch("https://systelle.onrender.com/home/profile", {
       method: "GET",
       credentials: "include",
     })
@@ -49,7 +49,7 @@ const Profile = () => {
   // ✅ Update profile to backend
   const handleUpdate = async () => {
     try {
-      const res = await fetch("http://localhost:5000/home/profile/update", {
+      const res = await fetch("https://systelle.onrender.com/home/profile/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

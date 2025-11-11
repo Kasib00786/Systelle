@@ -9,7 +9,7 @@ const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-
 export default function CrampRelief() {
   const [open, setOpen] = useState(false);
   useEffect(() => {
-              fetch('http://localhost:5000/health/CrampRelief', {
+              fetch('https://systelle.onrender.com/health/CrampRelief', {
                   method: 'GET',
                   credentials: 'include'
               })

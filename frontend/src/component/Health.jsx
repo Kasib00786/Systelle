@@ -8,7 +8,7 @@ const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-
 const Health = () => {
   const [open, setOpen] = useState(false);
   useEffect(() => {
-          fetch('http://localhost:5000/health', {
+          fetch('https://systelle.onrender.com/health', {
               method: 'GET',
               credentials: 'include'
           })

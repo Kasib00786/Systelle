@@ -9,7 +9,7 @@ const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-
 export default function BloodAmount() {
   const [open, setOpen] = useState(false);
   useEffect(() => {
-            fetch('http://localhost:5000/health/BloodAmount', {
+            fetch('https://systelle.onrender.com/health/BloodAmount', {
                 method: 'GET',
                 credentials: 'include'
             })

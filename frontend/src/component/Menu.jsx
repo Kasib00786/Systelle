@@ -7,7 +7,7 @@ export const Menu = () => {
     const [userName, setUserName] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:5000/home', {
+        fetch('https://systelle.onrender.com/home', {
             method: 'GET',
             credentials: 'include'
         })
@@ -29,7 +29,7 @@ export const Menu = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch('http://localhost:5000/logout', {
+            const response = await fetch('https://systelle.onrender.com/logout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

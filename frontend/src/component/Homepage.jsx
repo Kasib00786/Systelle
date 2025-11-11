@@ -21,7 +21,7 @@ export default function Homepage() {
   const [resetting, setResetting] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/home", { method: "GET", credentials: "include" })
+    fetch("https://systelle.onrender.com/home", { method: "GET", credentials: "include" })
       .then((res) => {
         if (res.status === 401) {
           window.location.replace("/login");

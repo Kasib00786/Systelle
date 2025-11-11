@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 export default function PeriodPain() {
   const [open, setOpen] = useState(false);
   useEffect(() => {
-              fetch('http://localhost:5000/health/PeriodPain', {
+              fetch('https://systelle.onrender.com/health/PeriodPain', {
                   method: 'GET',
                   credentials: 'include'
               })
