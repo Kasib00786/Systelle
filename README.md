@@ -1,2 +1,0 @@
-# Systelle
-Main Project
