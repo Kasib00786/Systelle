@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://systelle.vercel.app',
   credentials: true
 }));
 app.use(bodyParser.json());

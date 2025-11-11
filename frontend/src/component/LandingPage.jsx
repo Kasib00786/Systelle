@@ -1,13 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from './Navbar';
 
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 to-indigo-200 text-gray-800 overflow-x-hidden">
       <div className="bg-[url(/base3.jpg)] bg-cover bg-center min-h-screen">
-      {/* Navbar */}
-      <Navbar />
 
       {/* Hero Section */}
       <section className="text-center mt-20 px-4">
