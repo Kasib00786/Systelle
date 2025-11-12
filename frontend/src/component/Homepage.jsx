@@ -87,7 +87,7 @@ export default function Homepage() {
         if (!data) return;
         axios
           .post(
-            "http://127.0.0.1:5000/predict",
+            "https://systelle-model.onrender.com/predict",
             {
               How_was_your_flowing: data.flowing,
               Any_Spotting_or_irregular_spotting: data.spotting,
