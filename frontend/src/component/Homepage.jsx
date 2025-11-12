@@ -37,7 +37,7 @@ export default function Homepage() {
   const fetchCycleStatus = async () => {
     setChecking(true);
     try {
-      const res = await fetch("http://localhost:5000/home/cycle-status", {
+      const res = await fetch("https://systelle.onrender.com/home/cycle-status", {
         method: "GET",
         credentials: "include",
       });
@@ -54,7 +54,7 @@ export default function Homepage() {
     if (!window.confirm("Reset your cycle?")) return;
     setResetting(true);
     try {
-      const res = await fetch("http://localhost:5000/home/cycle-confirm", {
+      const res = await fetch("https://systelle.onrender.com/home/cycle-confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -72,7 +72,7 @@ export default function Homepage() {
 
   useEffect(() => {
     if (!userData) return;
-    fetch("http://localhost:5000/pcos/latest-data", {
+    fetch("https://systelle.onrender.com/pcos/latest-data", {
       method: "GET",
       credentials: "include",
     })
