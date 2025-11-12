@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Menu from './Menu';
 import Navbar from './Navbar';
 
 const levels = [

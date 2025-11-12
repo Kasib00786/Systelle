@@ -1,7 +1,5 @@
 import React from 'react'
 import { useState,useEffect } from 'react'
-import Menu from './Menu'
-import { Link } from 'react-router-dom'
 import Navbar from './Navbar'
 
 const AboutUs = () => {

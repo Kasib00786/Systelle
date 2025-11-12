@@ -1,10 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Menu from './Menu';
 import Navbar from './Navbar';
-
-const isactive = 'bg-gradient-to-r from-pink-100 to-indigo-200 pl-5 pr-5 rounded-full max-h-14 my-auto';
-const inactive = 'hover:bg-indigo-50 hover:shadow-lg rounded-full pr-5 pl-5 max-h-10 my-auto hover:scale-105 transition delay-100 duration-200 ease-in-out';
 
 export default function BloodAmount() {
   const [open, setOpen] = useState(false);

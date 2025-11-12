@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Menu from "./Menu";
 import { ClipboardList } from "lucide-react";
 import Navbar from "./Navbar";
 
-const isactive =
-  "bg-gradient-to-r from-pink-100 to-indigo-200 px-5 py-2 rounded-full shadow font-medium";
-const inactive =
-  "hover:bg-indigo-50 hover:shadow-md rounded-full px-5 py-2 font-medium transition duration-200 ease-in-out";
 const btn4 =
   "rounded-xl bg-white/80 hover:bg-violet-100 hover:scale-105 min-w-[90px] text-sm font-medium text-gray-800 transition";
 const btn2 =
