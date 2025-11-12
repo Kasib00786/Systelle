@@ -1,6 +1,5 @@
 import React from "react";
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
-import Menu from "./component/Menu";
 import DailyUpdate from "./component/DailyUpdate";
 import Calendar from "./component/Calendar";
 import Login from "./component/Login";
