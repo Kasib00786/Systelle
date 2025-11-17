@@ -30,13 +30,13 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: true,      // REQUIRED for HTTPS on Render
-      sameSite: "none"   // REQUIRED for cross-site cookies
+      secure: true, 
+      sameSite: "none"
     }
   })
 );
 
-// MongoDB Connection
+// MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
@@ -76,7 +76,7 @@ const User = mongoose.model("User", UserSchema);
 const Profile = mongoose.model("Profile", ProfileSchema);
 const DailyUpdate = mongoose.model("DailyUpdate", DailyUpdateSchema);
 
-// ROUTES
+
 app.get("/", (req, res) => {
   res.send("Backend running ✔");
 });
@@ -136,7 +136,8 @@ app.post("/signup/form", isAuthenticated, async (req, res) => {
   res.status(200).json({ success: true, redirectUrl: "/home" });
 });
 
-// DAILY UPDATE
+
+// Save daily update (POST)
 app.post("/calendar/updates", isAuthenticated, async (req, res) => {
   try {
     const update = new DailyUpdate({
@@ -153,7 +154,82 @@ app.post("/calendar/updates", isAuthenticated, async (req, res) => {
   }
 });
 
-// FETCH PROFILE
+// Login check route (GET) 
+app.get("/calendar/updates/check", isAuthenticated, (req, res) => {
+  res.status(200).json({ loggedIn: true });
+});
+
+
+app.get("/pcos/latest-data", isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.session.user._id;
+
+    const latestUpdate = await DailyUpdate.findOne({ userId }).sort({ date: -1 });
+
+    if (!latestUpdate) {
+      return res.status(404).json({ message: "No daily updates found" });
+    }
+
+    res.status(200).json(latestUpdate);
+  } catch (err) {
+    console.error("Error fetching latest data:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
+// Cycle status
+app.get("/home/cycle-status", isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.session.user._id;
+    const profile = await Profile.findOne({ userId });
+
+    if (!profile) {
+      return res.status(404).json({ error: "Profile not found" });
+    }
+
+    const lastDate = new Date(profile.LastDate);
+    const totalDays = profile.TotalDays;
+    const today = new Date();
+
+    const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
+    const daysRemaining = totalDays - diffDays;
+
+    let status = "upcoming";
+    if (daysRemaining === 0) status = "expected_today";
+    if (daysRemaining < 0) status = "delayed";
+
+    res.status(200).json({
+      status,
+      daysRemaining: Math.max(0, daysRemaining),
+      daysDelayed: Math.abs(daysRemaining)
+    });
+
+  } catch (err) {
+    console.error("Error fetching cycle status:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Reset cycle
+app.post("/home/cycle-confirm", isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.session.user._id;
+    const today = new Date().toISOString().split("T")[0];
+
+    await Profile.updateOne(
+      { userId },
+      { LastDate: today }
+    );
+
+    res.status(200).json({ message: "Cycle reset successfully" });
+  } catch (err) {
+    console.error("Error resetting cycle:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
 app.get("/home/profile", isAuthenticated, async (req, res) => {
   const userId = req.session.user._id;
 
@@ -161,9 +237,7 @@ app.get("/home/profile", isAuthenticated, async (req, res) => {
   const profile = await Profile.findOne({ userId });
 
   if (!user || !profile)
-    return res
-      .status(404)
-      .json({ message: "User or profile not found" });
+    return res.status(404).json({ message: "User or profile not found" });
 
   res.status(200).json({
     name: user.name,
@@ -175,19 +249,15 @@ app.get("/home/profile", isAuthenticated, async (req, res) => {
   });
 });
 
-// PCOS PREDICTION
+
 app.post("/pcos/predict", isAuthenticated, async (req, res) => {
   try {
     const userId = req.session.user._id;
-    const latestUpdate = await DailyUpdate.findOne({ userId }).sort({
-      date: -1
-    });
+    const latestUpdate = await DailyUpdate.findOne({ userId }).sort({ date: -1 });
     const profile = await Profile.findOne({ userId });
 
     if (!latestUpdate || !profile)
-      return res
-        .status(404)
-        .json({ error: "Insufficient data for prediction" });
+      return res.status(404).json({ error: "Insufficient data for prediction" });
 
     const predictionInput = {
       How_was_your_flowing: latestUpdate.flowing,
@@ -218,7 +288,7 @@ app.post("/pcos/predict", isAuthenticated, async (req, res) => {
   }
 });
 
-// HOME (PROTECTED ROUTE)
+
 app.get("/home", isAuthenticated, async (req, res) => {
   const user = await User.findById(req.session.user._id).select("name");
   const profile = await Profile.findOne({ userId: req.session.user._id });
