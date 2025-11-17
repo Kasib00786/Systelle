@@ -29,11 +29,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
   secret: "mySecretKey",
   resave: false,
-  saveUninitialized: false, // FIXED
+  saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: false,           // must be false on localhost
-    sameSite: "lax"          // FIXED: prevents cookie blocking
+    secure: true,
+    sameSite: "none"
   }
 }));
 
