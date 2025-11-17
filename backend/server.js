@@ -21,13 +21,20 @@ app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true
 }));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// FIXED SESSION SETTINGS
 app.use(session({
   secret: "mySecretKey",
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Set to true in production with HTTPS
+  saveUninitialized: false, // FIXED
+  cookie: {
+    httpOnly: true,
+    secure: false,           // must be false on localhost
+    sameSite: "lax"          // FIXED: prevents cookie blocking
+  }
 }));
 
 // Schemas
@@ -36,6 +43,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String
 });
+
 const ProfileSchema = new mongoose.Schema({
   userId: mongoose.Schema.Types.ObjectId,
   DOB: String,
@@ -44,6 +52,7 @@ const ProfileSchema = new mongoose.Schema({
   LastDate: String,
   LastsUpto: Number
 });
+
 const DailyUpdateSchema = new mongoose.Schema({
   userId: mongoose.Schema.Types.ObjectId,
   date: { type: Date, default: Date.now },
@@ -67,16 +76,20 @@ app.get("/", (req, res) => {
   res.send("Hello server");
 });
 
+/* LOGIN */
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email, password });
+
   if (user) {
     req.session.user = { email, _id: user._id };
     return res.status(200).json({ success: true, redirectUrl: '/home' });
   }
+
   return res.status(401).json({ success: false, message: 'Invalid credentials' });
 });
 
+/* LOGOUT */
 app.post("/logout", (req, res) => {
   req.session.destroy(err => {
     if (err) return res.status(500).json({ message: "Logout failed" });
@@ -85,35 +98,44 @@ app.post("/logout", (req, res) => {
   });
 });
 
+/* SIGNUP */
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
+
   try {
     const newUser = new User({ name, email, password });
     await newUser.save();
+
     req.session.user = { email, _id: newUser._id };
+
     res.status(200).json({ success: true, redirectUrl: '/signup/form' });
   } catch (error) {
     res.status(400).json({ success: false, message: 'Signup failed', error });
   }
 });
 
+/* SIGNUP FORM */
 app.post("/signup/form", isAuthenticated, async (req, res) => {
   const { DOB, age, TotalDays, LastDate, LastsUpto } = req.body;
+
   const profile = new Profile({
     userId: req.session.user._id,
     DOB, age, TotalDays, LastDate, LastsUpto
   });
+
   await profile.save();
+
   res.status(200).json({ success: true, redirectUrl: '/home' });
 });
 
+/* DAILY UPDATES */
 app.post("/calendar/updates", isAuthenticated, async (req, res) => {
   try {
-    const { flowing, spotting, feelings, pain_level, sleep_quality, energy, mind, skin, hair } = req.body;
     const update = new DailyUpdate({
       userId: req.session.user._id,
-      flowing, spotting, feelings, pain_level, sleep_quality, energy, mind, skin, hair
+      ...req.body
     });
+
     await update.save();
     res.status(200).json({ success: true, message: "Daily update saved" });
   } catch (err) {
@@ -122,15 +144,17 @@ app.post("/calendar/updates", isAuthenticated, async (req, res) => {
   }
 });
 
-
-// Fetch Profile
+/* PROFILE FETCH */
 app.get('/home/profile', isAuthenticated, async (req, res) => {
   const userId = req.session.user?._id;
+
   const user = await User.findById(userId).select('name email');
   const profile = await Profile.findOne({ userId });
+
   if (!user || !profile) {
     return res.status(404).json({ message: "User or profile not found" });
   }
+
   res.status(200).json({
     name: user.name,
     email: user.email,
@@ -141,6 +165,7 @@ app.get('/home/profile', isAuthenticated, async (req, res) => {
   });
 });
 
+/* PROFILE UPDATE */
 app.post('/home/profile/update', isAuthenticated, async (req, res) => {
   try {
     const userId = req.session.user._id;
@@ -153,7 +178,6 @@ app.post('/home/profile/update', isAuthenticated, async (req, res) => {
       return res.status(404).json({ success: false, message: "User or profile not found" });
     }
 
-    // ✅ Update fields
     if (name) user.name = name;
     if (dob) profile.DOB = dob;
     if (cycleStart) profile.LastDate = cycleStart;
@@ -169,13 +193,16 @@ app.post('/home/profile/update', isAuthenticated, async (req, res) => {
   }
 });
 
-// Latest Daily Update for fallback
+/* LATEST DATA */
 app.get('/pcos/latest-data', isAuthenticated, async (req, res) => {
   try {
-    const update = await DailyUpdate.findOne({ userId: req.session.user._id }).sort({ date: -1 });
+    const update = await DailyUpdate.findOne({ userId: req.session.user._id })
+      .sort({ date: -1 });
+
     if (!update) {
       return res.status(404).json({ success: false, message: "No daily updates found" });
     }
+
     res.status(200).json(update);
   } catch (err) {
     console.error("Error fetching latest daily update:", err);
@@ -183,10 +210,11 @@ app.get('/pcos/latest-data', isAuthenticated, async (req, res) => {
   }
 });
 
-// Prediction
+/* PCOS PREDICTION */
 app.post('/pcos/predict', isAuthenticated, async (req, res) => {
   try {
     const userId = req.session.user._id;
+
     const latestUpdate = await DailyUpdate.findOne({ userId }).sort({ date: -1 });
     const profile = await Profile.findOne({ userId });
 
@@ -219,128 +247,17 @@ app.post('/pcos/predict', isAuthenticated, async (req, res) => {
   }
 });
 
-// Home Page Info
+/* HOME PAGE */
 app.get("/home", isAuthenticated, async (req, res) => {
   const user = await User.findById(req.session.user._id).select("name");
   const profile = await Profile.findOne({ userId: req.session.user._id });
+
   res.status(200).json({
     success: true,
     name: user.name,
     totalDays: profile.TotalDays,
     lastDate: profile.LastDate,
     message: "You are at home"
-  });
-});
-
-// 🩸 Smart Cycle Tracking Route
-app.get("/home/cycle-status", isAuthenticated, async (req, res) => {
-  try {
-    const userId = req.session.user._id;
-    const profile = await Profile.findOne({ userId });
-    if (!profile) {
-      return res.status(404).json({ success: false, message: "Profile not found" });
-    }
-    const totalDays = profile.TotalDays || 28;
-    const lastDate = new Date(profile.LastDate);
-    const today = new Date();
-    // Calculate next expected cycle
-    const expectedDate = new Date(lastDate);
-    expectedDate.setDate(expectedDate.getDate() + totalDays);
-    // Difference in days
-    const diffInMs = today - expectedDate;
-    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-    // Case 1: Period expected today (same date)
-    if (today.toDateString() === expectedDate.toDateString()) {
-      return res.status(200).json({
-        success: true,
-        status: "expected_today",
-        message: "Period expected today. Confirm if it started.",
-        expectedDate: expectedDate.toISOString().split("T")[0],
-      });
-    }
-    // Case 2: Period is late (date has passed)
-    if (today > expectedDate) {
-      return res.status(200).json({
-        success: true,
-        status: "delayed",
-        message: `Your period is delayed by ${diffInDays} day(s).`,
-        expectedDate: expectedDate.toISOString().split("T")[0],
-        daysDelayed: diffInDays,
-      });
-    }
-    // Case 3: Still waiting before next cycle
-    const daysRemaining = Math.ceil(
-      (expectedDate - today) / (1000 * 60 * 60 * 24)
-    );
-    return res.status(200).json({
-      success: true,
-      status: "upcoming",
-      message: `Next cycle expected in ${daysRemaining} day(s).`,
-      expectedDate: expectedDate.toISOString().split("T")[0],
-      daysRemaining,
-    });
-  } catch (error) {
-    console.error("Error checking cycle status:", error);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
-// ✅ User confirms if period started or not
-app.post("/home/cycle-confirm", isAuthenticated, async (req, res) => {
-  try {
-    const userId = req.session.user._id;
-    const { periodStarted } = req.body; // true or false
-    const profile = await Profile.findOne({ userId });
-    if (!profile) {
-      return res.status(404).json({ success: false, message: "Profile not found" });
-    }
-    const today = new Date();
-    if (periodStarted) {
-      // Reset cycle: today becomes new LastDate
-      profile.LastDate = today.toISOString().split("T")[0];
-      await profile.save();
-      return res.status(200).json({
-        success: true,
-        message: "Cycle reset successfully for new period start.",
-        lastDate: profile.LastDate,
-      });
-    } else {
-      // Just return info that it’s delayed (no reset)
-      const totalDays = profile.TotalDays || 28;
-      const expectedDate = new Date(profile.LastDate);
-      expectedDate.setDate(expectedDate.getDate() + totalDays);
-      const diffInDays = Math.floor(
-        (today - expectedDate) / (1000 * 60 * 60 * 24)
-      );
-      return res.status(200).json({
-        success: true,
-        message: `Cycle delayed by ${diffInDays} day(s).`,
-        daysDelayed: diffInDays,
-      });
-    }
-  } catch (error) {
-    console.error("Error confirming period:", error);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
-
-
-// Route guards
-app.get('/login', (req, res) => {
-  if (req.session.user) return res.status(401).json({ success: false, message: "Unauthorized" });
-  res.status(200).json({ message: "Login page access granted" });
-});
-
-const subroutes = [
-  "/signup/form", "/home/:subroute",
-  "/calendar", "/calendar/:subroute",
-  "/health", "/health/:subroute",
-  "/exercise", "/exercise/:subroute"
-];
-subroutes.forEach(route => {
-  app.get(route, isAuthenticated, (req, res) => {
-    res.status(200).json({ message: `You are at ${req.params.subroute || "this route"}` });
   });
 });
 
