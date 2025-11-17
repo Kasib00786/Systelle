@@ -1,46 +1,31 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
-    useEffect(() => {
-        fetch('https://systelle.onrender.com/login', {
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(res => {
-            if (res.status === 401) {
-                alert("You are already logged in");
-                window.location.replace('/home');
-            }
-        });
-    }, []);
+
     const { handleSubmit, register, formState: { errors } } = useForm();
 
     const onSubmit = async (data) => {
-    try {
-        const response = await fetch('https://systelle.onrender.com/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify(data)
-        });
+        try {
+            const response = await fetch('https://systelle.onrender.com/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            });
 
-        const res = await response.json();
+            const res = await response.json();
 
-        if (res.success) {
-            // Redirect to the home page
-            window.location.href = res.redirectUrl;
-        } else {
-            alert("Login failed");
+            if (res.success) {
+                window.location.href = res.redirectUrl; // "/home"
+            } else {
+                alert("Login failed. Check email & password.");
+            }
+        } catch (error) {
+            console.error("Error during login", error);
         }
-    } catch (error) {
-        console.error("Error during login", error);
-    }
-};
-
-
-
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-[url(/base1.jpg)] bg-cover bg-center">
