@@ -18,22 +18,17 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Middleware
 app.use(cors({
-  origin: ['https://systelle.vercel.app', 'http://localhost:5173'],
+  origin: 'http://localhost:5173',
   credentials: true
 }));
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
   secret: "mySecretKey",
   resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24
-  }
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true in production with HTTPS
 }));
-
 
 // Schemas
 const UserSchema = new mongoose.Schema({
