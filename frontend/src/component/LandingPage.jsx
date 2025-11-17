@@ -12,9 +12,10 @@ const LandingPage = () => {
         {/* Navbar */}
         <nav className="relative z-10 flex items-center justify-between px-8 py-4 
                         bg-white/30 backdrop-blur-xl rounded-b-2xl shadow-lg border-b border-white/40">
+          <div className='flex flex-wrap'><img src="/logo.png" alt="logo" className='w-15 h-10' />
           <h2 className="text-3xl font-extrabold tracking-wide text-violet-700 drop-shadow-sm">
             Systelle
-          </h2>
+          </h2></div>
 
           <div className="flex items-center gap-4">
             <Link to="/login">
