@@ -21,7 +21,10 @@ export default function Homepage() {
   const [resetting, setResetting] = useState(false);
 
   useEffect(() => {
-    fetch("https://systelle.onrender.com/home", { method: "GET", credentials: "include" })
+    fetch("https://systelle.onrender.com/home", {
+      method: "GET",
+      credentials: "include",
+    })
       .then((res) => {
         if (res.status === 401) {
           window.location.replace("/login");
@@ -72,6 +75,8 @@ export default function Homepage() {
 
   useEffect(() => {
     if (!userData) return;
+
+    // 1. Fetch latest daily update from backend
     fetch("https://systelle.onrender.com/pcos/latest-data", {
       method: "GET",
       credentials: "include",
@@ -85,6 +90,8 @@ export default function Homepage() {
       })
       .then((data) => {
         if (!data) return;
+
+        // 2. Send data to FLASK model server
         axios
           .post(
             "https://systelle-model.onrender.com/predict",
@@ -100,9 +107,9 @@ export default function Homepage() {
             },
             { withCredentials: true }
           )
-          .then((res) =>
-            setRiskPercent(Math.round(res.data.pcod_pcos_chance_percent))
-          )
+          .then((res) => {
+            setRiskPercent(Math.round(res.data.pcod_pcos_chance_percent));
+          })
           .catch((err) => console.error("Prediction failed:", err));
       })
       .catch(() => setDailyUpdateAvailable(false));
@@ -123,24 +130,30 @@ export default function Homepage() {
       </div>
     );
 
+  // -----------------------------
+  // CYCLE CALCULATIONS
+  // -----------------------------
   const totalDays = userData.totalDays;
   const lastDate = new Date(userData.lastDate);
   const today = new Date();
   const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
   const daysLeft = Math.max(0, totalDays - diffDays);
   const percent = Math.min(100, ((totalDays - daysLeft) / totalDays) * 100);
-  const nextDate = new Date(
-    lastDate.getTime() + totalDays * 24 * 60 * 60 * 1000
-  ).toDateString();
+  const nextDate = new Date(lastDate.getTime() + totalDays * 86400000).toDateString();
 
+  // -----------------------------
+  // UI RETURN
+  // -----------------------------
   return (
     <div className="bg-[url(/base2.jpg)] bg-cover bg-center min-h-screen py-6 pb-20 md:py-10">
       <Navbar />
       <div className="max-w-[85%] mx-auto mt-8">
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 md:gap-10">
-          {/* LEFT SECTION */}
+
+          {/* ================= LEFT SECTION ================= */}
           <div className="xl:col-span-2 flex flex-col gap-6 md:gap-8">
-            {/* Overview Header */}
+
+            {/* HEADER */}
             <div className="bg-white/70 p-5 md:p-6 rounded-3xl backdrop-blur-xl shadow-lg border border-white/30 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -157,7 +170,7 @@ export default function Homepage() {
               </Link>
             </div>
 
-            {/* Circular Tracker */}
+            {/* CIRCULAR TRACKER */}
             <div className="bg-gradient-to-br from-white/70 to-white/40 rounded-3xl p-6 md:p-10 shadow-xl border border-white/30 backdrop-blur-lg relative overflow-hidden">
               <div className="absolute w-64 h-64 md:w-80 md:h-80 bg-gradient-to-tr from-violet-300/30 via-indigo-400/20 to-transparent blur-3xl rounded-full animate-pulse top-0 right-0" />
               <div className="flex flex-col items-center relative z-10">
@@ -182,30 +195,24 @@ export default function Homepage() {
                 </p>
               </div>
 
-              {/* Quick Summary */}
+              {/* SUMMARY CARDS */}
               <div className="grid grid-cols-3 gap-4 mt-6 md:mt-8 text-center">
-                <MiniCard
-                  icon={<CalendarDays />}
-                  label="Last Period"
-                  value={lastDate.toLocaleDateString()}
-                />
-                <MiniCard
-                  icon={<HeartPulse />}
-                  label="Cycle Length"
-                  value={`${totalDays} days`}
-                />
+                <MiniCard icon={<CalendarDays />} label="Last Period" value={lastDate.toLocaleDateString()} />
+                <MiniCard icon={<HeartPulse />} label="Cycle Length" value={`${totalDays} days`} />
                 <MiniCard icon={<Sparkles />} label="Next Expected" value={nextDate} />
               </div>
             </div>
           </div>
 
-          {/* RIGHT SECTION */}
+          {/* ================= RIGHT SECTION ================= */}
           <div className="flex flex-col gap-6 md:gap-8">
-            {/* Risk Analysis */}
+
+            {/* PCOS RISK */}
             <div className="bg-gradient-to-br from-white/70 to-white/40 rounded-3xl p-6 shadow-lg backdrop-blur-lg border border-white/30">
               <h3 className="text-lg md:text-xl font-semibold mb-3 text-gray-900">
                 Health Risk Analysis
               </h3>
+
               {!dailyUpdateAvailable ? (
                 <p className="text-center text-red-600 font-medium text-sm md:text-base">
                   Submit today’s update to view PCOD/PCOS risk.
@@ -220,6 +227,7 @@ export default function Homepage() {
                       {riskPercent}%
                     </p>
                   </div>
+
                   <div className="w-full h-4 bg-white rounded-full overflow-hidden mb-2">
                     <div
                       className={`h-full ${
@@ -232,6 +240,7 @@ export default function Homepage() {
                       style={{ width: `${riskPercent}%` }}
                     />
                   </div>
+
                   <p className="text-sm text-gray-700">
                     {riskPercent < 35
                       ? "Low risk — keep maintaining healthy habits."
@@ -245,23 +254,15 @@ export default function Homepage() {
               )}
             </div>
 
-            {/* Cycle Management */}
+            {/* CYCLE MANAGEMENT */}
             <div className="bg-white/70 p-5 rounded-3xl shadow-lg backdrop-blur-lg border border-white/30">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">
                 Cycle Management
               </h3>
+
               <div className="flex flex-col sm:flex-row justify-center gap-3 mb-3">
-                <Button
-                  onClick={fetchCycleStatus}
-                  loading={checking}
-                  text="🔄 Check Cycle Status"
-                />
-                <Button
-                  onClick={handleResetCycle}
-                  loading={resetting}
-                  text="♻ Reset Cycle"
-                  color="pink"
-                />
+                <Button onClick={fetchCycleStatus} loading={checking} text="🔄 Check Cycle Status" />
+                <Button onClick={handleResetCycle} loading={resetting} text="♻ Reset Cycle" color="pink" />
               </div>
 
               {cycleData && (
@@ -289,34 +290,28 @@ export default function Homepage() {
               )}
             </div>
 
-            {/* Daily Wellness */}
+            {/* DAILY WELLNESS */}
             <div className="bg-white/70 p-5 rounded-3xl shadow-lg backdrop-blur-lg border border-white/30">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">
                 Daily Wellness
               </h3>
+
               <div className="space-y-3 text-gray-700 text-sm">
-                <Tip
-                  icon={<Droplets className="text-violet-600" />}
-                  text="Stay hydrated — aim for 2L water today."
-                />
-                <Tip
-                  icon={<Activity className="text-violet-600" />}
-                  text="Gentle stretching or yoga boosts circulation."
-                />
-                <Tip
-                  icon={<Sparkles className="text-violet-600" />}
-                  text="Eat more fruits, greens, and whole grains."
-                />
+                <Tip icon={<Droplets className="text-violet-600" />} text="Stay hydrated — aim for 2L water today." />
+                <Tip icon={<Activity className="text-violet-600" />} text="Gentle stretching or yoga boosts circulation." />
+                <Tip icon={<Sparkles className="text-violet-600" />} text="Eat more fruits, greens, and whole grains." />
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
   );
 }
 
-/* Reusable Components */
+/* ================= HELPER COMPONENTS ================= */
+
 const MiniCard = ({ icon, label, value }) => (
   <div className="bg-white/50 rounded-2xl p-3 md:p-4 shadow-sm hover:scale-105 transition">
     <div className="flex justify-center text-violet-700 mb-1">{icon}</div>

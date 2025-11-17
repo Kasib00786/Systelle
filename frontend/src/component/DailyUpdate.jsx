@@ -11,7 +11,6 @@ const selectedBtn =
   "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg scale-105";
 
 export const DailyUpdate = () => {
-  const [open, setOpen] = useState(false);
   const [answers, setAnswers] = useState({});
   const navigate = useNavigate();
 
@@ -19,8 +18,9 @@ export const DailyUpdate = () => {
     setAnswers((prev) => ({ ...prev, [questionKey]: answer }));
   };
 
+  // 🟣 CHECK LOGIN STATUS
   useEffect(() => {
-    fetch("https://systelle.onrender.com/calendar/updates", {
+    fetch("https://systelle.onrender.com/calendar/updates/check", {
       method: "GET",
       credentials: "include",
     }).then((res) => {
@@ -30,9 +30,10 @@ export const DailyUpdate = () => {
     });
   }, []);
 
+  // 🟣 SUBMIT DAILY UPDATE
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/calendar/updates", {
+      const response = await fetch("https://systelle.onrender.com/calendar/updates", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -53,9 +54,9 @@ export const DailyUpdate = () => {
 
       if (data.success) {
         alert("Update saved successfully!");
-        navigate("/calendar");
+        navigate("/home");
       } else {
-        alert("Failed to save update.");
+        alert(data.message || "Failed to save update.");
       }
     } catch (error) {
       console.error("Error sending update:", error);
@@ -91,10 +92,8 @@ export const DailyUpdate = () => {
 
   return (
     <div className="bg-[url(/base2.jpg)] bg-cover bg-center bg-fixed py-8 min-h-screen">
-      {/* === NAVBAR === */}
       <Navbar />
 
-      {/* === QUESTIONS CONTAINER === */}
       <div className="max-w-[85%] mx-auto mt-6 bg-white/50 p-6 rounded-2xl shadow-lg backdrop-blur-md border border-white/30">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
           Daily Health & Cycle Update 🌸
@@ -155,7 +154,6 @@ export const DailyUpdate = () => {
           ])}
         </div>
 
-        {/* === SUBMIT BUTTON === */}
         <div className="flex justify-center mt-8">
           <button
             onClick={handleSubmit}
