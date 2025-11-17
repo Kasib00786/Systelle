@@ -11,31 +11,36 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+app.set("trust proxy", 1);
 
-// Middleware
 app.use(cors({
-  origin: 'https://systelle.vercel.app',
-  credentials: true
+  origin: "https://systelle.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
 }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// FIXED SESSION SETTINGS
-app.use(session({
-  secret: "mySecretKey",
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none"
-  }
-}));
+app.use(
+  session({
+    secret: "mySecretKey",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: true,      // REQUIRED for HTTPS on Render
+      sameSite: "none"   // REQUIRED for cross-site cookies
+    }
+  })
+);
+
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Schemas
 const UserSchema = new mongoose.Schema({
@@ -67,38 +72,38 @@ const DailyUpdateSchema = new mongoose.Schema({
   hair: String
 });
 
-const User = mongoose.model('User', UserSchema);
-const Profile = mongoose.model('Profile', ProfileSchema);
-const DailyUpdate = mongoose.model('DailyUpdate', DailyUpdateSchema);
+const User = mongoose.model("User", UserSchema);
+const Profile = mongoose.model("Profile", ProfileSchema);
+const DailyUpdate = mongoose.model("DailyUpdate", DailyUpdateSchema);
 
-// Routes
+// ROUTES
 app.get("/", (req, res) => {
-  res.send("Hello server");
+  res.send("Backend running ✔");
 });
 
-/* LOGIN */
+// LOGIN
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email, password });
 
   if (user) {
     req.session.user = { email, _id: user._id };
-    return res.status(200).json({ success: true, redirectUrl: '/home' });
+    return res.status(200).json({ success: true, redirectUrl: "/home" });
   }
 
-  return res.status(401).json({ success: false, message: 'Invalid credentials' });
+  res.status(401).json({ success: false, message: "Invalid credentials" });
 });
 
-/* LOGOUT */
+// LOGOUT
 app.post("/logout", (req, res) => {
-  req.session.destroy(err => {
+  req.session.destroy((err) => {
     if (err) return res.status(500).json({ message: "Logout failed" });
-    res.clearCookie('connect.sid');
-    res.status(200).json({ message: "Logged out successfully" });
+    res.clearCookie("connect.sid");
+    res.status(200).json({ message: "Logged out" });
   });
 });
 
-/* SIGNUP */
+// SIGNUP
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -107,28 +112,31 @@ app.post("/signup", async (req, res) => {
     await newUser.save();
 
     req.session.user = { email, _id: newUser._id };
-
-    res.status(200).json({ success: true, redirectUrl: '/signup/form' });
+    res.status(200).json({ success: true, redirectUrl: "/signup/form" });
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Signup failed', error });
+    res.status(400).json({ success: false, message: "Signup failed", error });
   }
 });
 
-/* SIGNUP FORM */
+// SIGNUP FORM EXTRA DETAILS
 app.post("/signup/form", isAuthenticated, async (req, res) => {
   const { DOB, age, TotalDays, LastDate, LastsUpto } = req.body;
 
   const profile = new Profile({
     userId: req.session.user._id,
-    DOB, age, TotalDays, LastDate, LastsUpto
+    DOB,
+    age,
+    TotalDays,
+    LastDate,
+    LastsUpto
   });
 
   await profile.save();
 
-  res.status(200).json({ success: true, redirectUrl: '/home' });
+  res.status(200).json({ success: true, redirectUrl: "/home" });
 });
 
-/* DAILY UPDATES */
+// DAILY UPDATE
 app.post("/calendar/updates", isAuthenticated, async (req, res) => {
   try {
     const update = new DailyUpdate({
@@ -137,6 +145,7 @@ app.post("/calendar/updates", isAuthenticated, async (req, res) => {
     });
 
     await update.save();
+
     res.status(200).json({ success: true, message: "Daily update saved" });
   } catch (err) {
     console.error("Error saving daily update:", err);
@@ -144,16 +153,17 @@ app.post("/calendar/updates", isAuthenticated, async (req, res) => {
   }
 });
 
-/* PROFILE FETCH */
-app.get('/home/profile', isAuthenticated, async (req, res) => {
-  const userId = req.session.user?._id;
+// FETCH PROFILE
+app.get("/home/profile", isAuthenticated, async (req, res) => {
+  const userId = req.session.user._id;
 
-  const user = await User.findById(userId).select('name email');
+  const user = await User.findById(userId).select("name email");
   const profile = await Profile.findOne({ userId });
 
-  if (!user || !profile) {
-    return res.status(404).json({ message: "User or profile not found" });
-  }
+  if (!user || !profile)
+    return res
+      .status(404)
+      .json({ message: "User or profile not found" });
 
   res.status(200).json({
     name: user.name,
@@ -165,62 +175,19 @@ app.get('/home/profile', isAuthenticated, async (req, res) => {
   });
 });
 
-/* PROFILE UPDATE */
-app.post('/home/profile/update', isAuthenticated, async (req, res) => {
+// PCOS PREDICTION
+app.post("/pcos/predict", isAuthenticated, async (req, res) => {
   try {
     const userId = req.session.user._id;
-    const { name, dob, cycleStart, cycleDuration } = req.body;
-
-    const user = await User.findById(userId);
+    const latestUpdate = await DailyUpdate.findOne({ userId }).sort({
+      date: -1
+    });
     const profile = await Profile.findOne({ userId });
 
-    if (!user || !profile) {
-      return res.status(404).json({ success: false, message: "User or profile not found" });
-    }
-
-    if (name) user.name = name;
-    if (dob) profile.DOB = dob;
-    if (cycleStart) profile.LastDate = cycleStart;
-    if (cycleDuration) profile.LastsUpto = cycleDuration;
-
-    await user.save();
-    await profile.save();
-
-    return res.status(200).json({ success: true, message: "Profile updated successfully" });
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
-/* LATEST DATA */
-app.get('/pcos/latest-data', isAuthenticated, async (req, res) => {
-  try {
-    const update = await DailyUpdate.findOne({ userId: req.session.user._id })
-      .sort({ date: -1 });
-
-    if (!update) {
-      return res.status(404).json({ success: false, message: "No daily updates found" });
-    }
-
-    res.status(200).json(update);
-  } catch (err) {
-    console.error("Error fetching latest daily update:", err);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
-/* PCOS PREDICTION */
-app.post('/pcos/predict', isAuthenticated, async (req, res) => {
-  try {
-    const userId = req.session.user._id;
-
-    const latestUpdate = await DailyUpdate.findOne({ userId }).sort({ date: -1 });
-    const profile = await Profile.findOne({ userId });
-
-    if (!latestUpdate || !profile) {
-      return res.status(404).json({ error: "Insufficient data for prediction" });
-    }
+    if (!latestUpdate || !profile)
+      return res
+        .status(404)
+        .json({ error: "Insufficient data for prediction" });
 
     const predictionInput = {
       How_was_your_flowing: latestUpdate.flowing,
@@ -233,21 +200,25 @@ app.post('/pcos/predict', isAuthenticated, async (req, res) => {
       Number_of_days_of_menstrual_cycle: profile.TotalDays || 28
     };
 
-    const flaskRes = await fetch('https://systelle-model.onrender.com/predict', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(predictionInput)
-    });
+    const flaskRes = await fetch(
+      "https://systelle-model.onrender.com/predict",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(predictionInput)
+      }
+    );
 
     const data = await flaskRes.json();
+
     res.status(200).json(data);
   } catch (error) {
-    console.error('Error calling Flask model:', error);
-    res.status(500).json({ error: 'Model server not responding' });
+    console.error("Error calling Flask model:", error);
+    res.status(500).json({ error: "Model server not responding" });
   }
 });
 
-/* HOME PAGE */
+// HOME (PROTECTED ROUTE)
 app.get("/home", isAuthenticated, async (req, res) => {
   const user = await User.findById(req.session.user._id).select("name");
   const profile = await Profile.findOne({ userId: req.session.user._id });
@@ -261,7 +232,7 @@ app.get("/home", isAuthenticated, async (req, res) => {
   });
 });
 
-// Start server
+// START SERVER
 app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });
